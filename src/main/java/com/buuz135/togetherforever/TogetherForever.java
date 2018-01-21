@@ -13,6 +13,7 @@ import com.buuz135.togetherforever.utils.AnnotationHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -98,10 +99,12 @@ public class TogetherForever {
 
     private void registerSyncActions(ASMDataTable data) throws IllegalAccessException, InstantiationException {
         for (Class aClass : AnnotationHelper.getAnnotatedClasses(data, SyncAction.class)) {
-            Object object = aClass.newInstance();
-            if (object instanceof ISyncAction) {
+            if (ISyncAction.class.isAssignableFrom(aClass)) {
                 SyncAction syncAction = (SyncAction) aClass.getAnnotation(SyncAction.class);
-                TogetherRegistries.registerSyncAction(syncAction.id(), (ISyncAction) object);
+                if (syncAction.dependencies().length == 0 || areDependenciesLoaded(syncAction.dependencies())) {
+                    Object object = aClass.newInstance();
+                    TogetherRegistries.registerSyncAction(syncAction.id(), (ISyncAction) object);
+                }
             }
         }
     }
@@ -124,4 +127,10 @@ public class TogetherForever {
         }
     }
 
+    private boolean areDependenciesLoaded(String[] deps){
+        for (String dep : deps){
+            if (!Loader.isModLoaded(dep)) return false;
+        }
+        return true;
+    }
 }

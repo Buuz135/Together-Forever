@@ -10,4 +10,6 @@ import java.lang.annotation.Target;
 public @interface SyncAction {
 
     String id();
+
+    String[] dependencies() default {};
 }
