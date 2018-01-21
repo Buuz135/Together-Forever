@@ -1,0 +1,20 @@
+[
+  {
+    "modid": "togetherforever",
+    "name": "TogetherForever",
+    "description": "A Team API that allows you to sync a bunch of stuff between players",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "Buuz135"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": [
+      ""
+    ]
+  }
+]
