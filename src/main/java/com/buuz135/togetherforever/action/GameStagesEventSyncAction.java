@@ -5,6 +5,7 @@ import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.api.ITogetherTeam;
 import com.buuz135.togetherforever.api.action.EventSyncAction;
 import com.buuz135.togetherforever.api.annotation.SyncAction;
+import com.buuz135.togetherforever.config.TogetherForeverConfig;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import net.darkhax.gamestages.capabilities.PlayerDataHandler;
@@ -41,6 +42,7 @@ public class GameStagesEventSyncAction extends EventSyncAction<GameStageEvent.Ad
     @Override
     public List<IPlayerInformation> triggerSync(GameStageEvent.Add object, ITogetherTeam togetherTeam) {
         List<IPlayerInformation> playerInformations = new ArrayList<>();
+        if (!TogetherForeverConfig.gamestagesSync) return playerInformations;
         for (IPlayerInformation information : togetherTeam.getPlayers()) {
             EntityPlayerMP playerMP = information.getPlayer();
             if (playerMP == null) playerInformations.add(information);

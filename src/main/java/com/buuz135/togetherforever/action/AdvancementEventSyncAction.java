@@ -5,6 +5,7 @@ import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.api.ITogetherTeam;
 import com.buuz135.togetherforever.api.action.EventSyncAction;
 import com.buuz135.togetherforever.api.annotation.SyncAction;
+import com.buuz135.togetherforever.config.TogetherForeverConfig;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,6 +31,7 @@ public class AdvancementEventSyncAction extends EventSyncAction<AdvancementEvent
     @Override
     public List<IPlayerInformation> triggerSync(AdvancementEvent object, ITogetherTeam togetherTeam) {
         List<IPlayerInformation> playerInformations = new ArrayList<>();
+        if (!TogetherForeverConfig.advancementSync) return playerInformations;
         for (IPlayerInformation information : togetherTeam.getPlayers()) {
             EntityPlayerMP playerMP = information.getPlayer();
             if (playerMP == null) playerInformations.add(information);
