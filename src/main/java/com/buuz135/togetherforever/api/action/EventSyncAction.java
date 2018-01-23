@@ -13,7 +13,7 @@ public abstract class EventSyncAction<T extends PlayerEvent, S extends IOfflineS
     private final Class<S> recovery;
     private final Class<T> eventClass;
 
-    public EventSyncAction(Class<S> offlineRecovery, Class<T> eventClass) {
+    public EventSyncAction(Class<T> eventClass, Class<S> offlineRecovery) {
         this.recovery = offlineRecovery;
         this.eventClass = eventClass;
         MinecraftForge.EVENT_BUS.register(this);

@@ -26,7 +26,7 @@ public class GameStagesEventSyncAction extends EventSyncAction<GameStageEvent.Ad
     private ListMultimap<EntityPlayerMP, String> stageUnlocks;
 
     public GameStagesEventSyncAction() {
-        super(GameStageOfflineRecovery.class, GameStageEvent.Add.class);
+        super(GameStageEvent.Add.class, GameStageOfflineRecovery.class);
         this.stageUnlocks = ArrayListMultimap.create();
         MinecraftForge.EVENT_BUS.register(this);
     }

@@ -17,7 +17,7 @@ import java.util.List;
 public class AdvancementEventSyncAction extends EventSyncAction<AdvancementEvent, AdvancementOfflineRecovery> {
 
     public AdvancementEventSyncAction() {
-        super(AdvancementOfflineRecovery.class, AdvancementEvent.class);
+        super(AdvancementEvent.class, AdvancementOfflineRecovery.class);
     }
 
     public static void grantAllParentAchievements(EntityPlayerMP player, Advancement advancement) {
