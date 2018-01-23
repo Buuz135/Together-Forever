@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * A collection of useful methods of the API
+ */
 public class TogetherForeverAPI {
 
     private static TogetherForeverAPI ourInstance = new TogetherForeverAPI();
@@ -31,10 +34,19 @@ public class TogetherForeverAPI {
         return ourInstance;
     }
 
+    /**
+     * Gets the list of teams. Changes done to this list won't be saved
+     *
+     * @return The list of teams
+     */
     public List<ITogetherTeam> getTeams() {
         return getDataManager(getWorld()).getTeams();
     }
 
+    /**
+     * Adds a team to the API
+     * @param togetherTeam The team to add
+     */
     public void addTeam(ITogetherTeam togetherTeam) {
         DataManager dataManager = getDataManager(getWorld());
         TeamEvent.Create create = new TeamEvent.Create(togetherTeam);
@@ -45,6 +57,11 @@ public class TogetherForeverAPI {
         }
     }
 
+    /**
+     * Adds a player to a team using the team unique identifiers to search it.
+     * @param team The team to add the player to
+     * @param playerInformation The information of the player that needs to be added to the team
+     */
     public void addPlayerToTeam(ITogetherTeam team, IPlayerInformation playerInformation) {
         DataManager manager = getDataManager(getWorld());
         for (ITogetherTeam togetherTeam : manager.getTeams()) {
@@ -59,6 +76,11 @@ public class TogetherForeverAPI {
         }
     }
 
+    /**
+     * Removes a player from a team using the team unique identifiers to search it
+     * @param team The team to remove the player from
+     * @param playerInformation The information of the player that needs to be removed from the team
+     */
     public void removePlayerFromTeam(ITogetherTeam team, IPlayerInformation playerInformation) {
         DataManager manager = getDataManager(getWorld());
         for (ITogetherTeam togetherTeam : manager.getTeams()) {
@@ -72,6 +94,11 @@ public class TogetherForeverAPI {
         }
     }
 
+    /**
+     * Gets the team of a player
+     * @param playerUUID The UUID of the player to get the team from
+     * @return The team of the player, null if the player isn't in a team
+     */
     @Nullable
     public ITogetherTeam getPlayerTeam(UUID playerUUID) {
         for (ITogetherTeam togetherTeam : getTeams()) {
@@ -82,6 +109,13 @@ public class TogetherForeverAPI {
         return null;
     }
 
+    /**
+     * Creates an invite to join a team
+     * @param sender The player that sends the invite
+     * @param reciever The player that recieves the invite
+     * @param announceInvite true if the player that gets the invite needs to get a notification
+     * @return The created invite
+     */
     public TeamInvite createTeamInvite(IPlayerInformation sender, IPlayerInformation reciever, boolean announceInvite) {
         TeamInvite invite = new TeamInvite(sender, reciever);
         if (announceInvite) {
@@ -96,6 +130,12 @@ public class TogetherForeverAPI {
         return invite;
     }
 
+    /**
+     * Adds a player to a OfflineSyncRecovery
+     * @param recoveryClass The class of the OfflineSyncRecovery
+     * @param iPlayerInformation The PlayerInformation that need to be stored
+     * @param compound The recovery information that needs to be stored
+     */
     public void addPlayerToOfflineRecovery(Class<? extends IOfflineSyncRecovery> recoveryClass, IPlayerInformation iPlayerInformation, NBTTagCompound compound) {
         DataManager manager = getDataManager(getWorld());
         for (IOfflineSyncRecovery recovery : manager.getRecoveries()) {
@@ -115,6 +155,11 @@ public class TogetherForeverAPI {
         }
     }
 
+    /**
+     * Gets the generic DataManager
+     * @param world A world of to get the DataManager, it can be any world
+     * @return the DataManager
+     */
     public DataManager getDataManager(World world) {
         DataManager dataManager = (DataManager) world.getMapStorage().getOrLoadData(DataManager.class, DataManager.NAME);
         if (dataManager == null) {
@@ -124,20 +169,38 @@ public class TogetherForeverAPI {
         return dataManager;
     }
 
+    /**
+     * Gets the player entity
+     * @param string The name of the player
+     * @return The EntityPlayerMP, null if the player is offline
+     */
     @Nullable
     public EntityPlayerMP getPlayer(String string) {
         return FMLServerHandler.instance().getServer().getPlayerList().getPlayerByUsername(string);
     }
 
+    /**
+     * Gets the player entity
+     * @param uuid The UUID of the player
+     * @return The EntityPlayerMP, null if the player is offline
+     */
     @Nullable
     public EntityPlayerMP getPlayer(UUID uuid) {
         return FMLServerHandler.instance().getServer().getPlayerList().getPlayerByUUID(uuid);
     }
 
+    /**
+     * Gets the open team invites
+     * @return The list of team invites
+     */
     public List<TeamInvite> getTeamInvites() {
         return teamInvites;
     }
 
+    /**
+     * Gets the world overworld
+     * @return The overworld
+     */
     public World getWorld() {
         return FMLServerHandler.instance().getServer().getWorld(0);
     }

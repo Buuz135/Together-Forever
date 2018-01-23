@@ -5,6 +5,9 @@ import com.buuz135.togetherforever.api.ITogetherTeam;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
+/**
+ * TeamEvents for creating a team or adding or removing a player from a team
+ */
 public class TeamEvent extends Event {
 
     private ITogetherTeam iTogetherTeam;

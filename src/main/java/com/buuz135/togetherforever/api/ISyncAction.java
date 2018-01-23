@@ -2,16 +2,26 @@ package com.buuz135.togetherforever.api;
 
 import java.util.List;
 
+/**
+ * Represents a Sync Action based in an Object with an OfflineSyncRecovery. THE FINAL USED CLASS NEEDS A CONSTRUCTOR WITHOUT PARAMETERS!
+ *
+ * @param <T> The Object type that the action is based on
+ * @param <S> The IOfflineRecovery for the ISyncAction
+ */
 public interface ISyncAction<T extends Object, S extends IOfflineSyncRecovery> {
 
     /**
-     * Returns a list of players that werent able to sync
-     *
-     * @param togetherTeam
-     * @return
+     * Triggers a sync of the action returning a list of PlayersInformation the were offline for the sync
+     * @param object The object of the action
+     * @param togetherTeam The team the will get the action triggered
+     * @return A list of PlayersInformation that were offline
      */
     List<IPlayerInformation> triggerSync(T object, ITogetherTeam togetherTeam);
 
+    /***
+     * A getter for the IOfflineSyncRecovery
+     * @return The class of the IOfflineSyncRecovery
+     */
     Class<S> getOfflineRecovery();
 
 }
