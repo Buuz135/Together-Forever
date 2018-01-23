@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
@@ -51,15 +52,17 @@ public class TogetherForever {
      */
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
-        LOGGER = event.getModLog();
-        try {
-            registerSyncActions(event.getAsmData());
-            registerTogetherTeams(event.getAsmData());
-            registerPlayerInformations(event.getAsmData());
-        } catch (IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
+        if (event.getSide() == Side.SERVER){
+            LOGGER = event.getModLog();
+            try {
+                registerSyncActions(event.getAsmData());
+                registerTogetherTeams(event.getAsmData());
+                registerPlayerInformations(event.getAsmData());
+            } catch (IllegalAccessException | InstantiationException e) {
+                e.printStackTrace();
+            }
+            MinecraftForge.EVENT_BUS.register(this);
         }
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     /**
