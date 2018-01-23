@@ -3,7 +3,7 @@ package com.buuz135.togetherforever.action.recovery;
 import com.buuz135.togetherforever.action.AdvancementEventSyncAction;
 import com.buuz135.togetherforever.api.IOfflineSyncRecovery;
 import com.buuz135.togetherforever.api.IPlayerInformation;
-import com.buuz135.togetherforever.data.TogetherRegistries;
+import com.buuz135.togetherforever.api.data.TogetherRegistries;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import net.minecraft.advancements.Advancement;

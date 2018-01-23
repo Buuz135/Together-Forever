@@ -1,7 +1,8 @@
 package com.buuz135.togetherforever.api;
 
+import com.buuz135.togetherforever.api.data.DataManager;
+import com.buuz135.togetherforever.api.data.TeamInvite;
 import com.buuz135.togetherforever.api.event.TeamEvent;
-import com.buuz135.togetherforever.data.DataManager;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;

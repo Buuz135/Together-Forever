@@ -1,4 +1,4 @@
-package com.buuz135.togetherforever.data;
+package com.buuz135.togetherforever.api.data;
 
 import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.api.TogetherForeverAPI;

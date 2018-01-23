@@ -2,7 +2,7 @@ package com.buuz135.togetherforever.command;
 
 import com.buuz135.togetherforever.api.TogetherForeverAPI;
 import com.buuz135.togetherforever.api.command.SubCommandAction;
-import com.buuz135.togetherforever.data.DefaultPlayerInformation;
+import com.buuz135.togetherforever.api.data.DefaultPlayerInformation;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;

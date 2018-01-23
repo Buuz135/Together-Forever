@@ -1,6 +1,8 @@
-package com.buuz135.togetherforever.api;
+package com.buuz135.togetherforever.api.data;
 
-import com.buuz135.togetherforever.data.DefaultTogetherTeam;
+import com.buuz135.togetherforever.api.IPlayerInformation;
+import com.buuz135.togetherforever.api.ITogetherTeam;
+import com.buuz135.togetherforever.api.TogetherForeverAPI;
 import net.minecraft.util.text.TextComponentString;
 
 public class TeamInvite {
