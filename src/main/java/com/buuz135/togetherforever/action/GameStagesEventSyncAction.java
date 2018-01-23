@@ -45,18 +45,19 @@ public class GameStagesEventSyncAction extends EventSyncAction<GameStageEvent.Ad
             EntityPlayerMP playerMP = information.getPlayer();
             if (playerMP == null) playerInformations.add(information);
             else {
-                if (!PlayerDataHandler.getStageData(playerMP).hasUnlockedStage(object.getStageName()) && !stageUnlocks.containsEntry(playerMP, object.getStageName())) stageUnlocks.put(playerMP, object.getStageName());
+                if (!PlayerDataHandler.getStageData(playerMP).hasUnlockedStage(object.getStageName()) && !stageUnlocks.containsEntry(playerMP, object.getStageName()))
+                    stageUnlocks.put(playerMP, object.getStageName());
             }
         }
         return playerInformations;
     }
 
     @SubscribeEvent
-    public void onServerTick(TickEvent.ServerTickEvent event){
+    public void onServerTick(TickEvent.ServerTickEvent event) {
         for (Map.Entry<EntityPlayerMP, String> entityPlayerMPStringEntry : stageUnlocks.entries()) {
             if (!PlayerDataHandler.getStageData(entityPlayerMPStringEntry.getKey()).hasUnlockedStage(entityPlayerMPStringEntry.getValue())) {
                 PlayerDataHandler.getStageData(entityPlayerMPStringEntry.getKey()).unlockStage(entityPlayerMPStringEntry.getValue());
-                entityPlayerMPStringEntry.getKey().sendMessage(new TextComponentString("You unlocked stage "+entityPlayerMPStringEntry.getValue()+"!"));
+                entityPlayerMPStringEntry.getKey().sendMessage(new TextComponentString("You unlocked stage " + entityPlayerMPStringEntry.getValue() + "!"));
             }
         }
         stageUnlocks.clear();

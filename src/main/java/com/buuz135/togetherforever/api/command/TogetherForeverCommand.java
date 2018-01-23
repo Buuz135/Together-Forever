@@ -1,10 +1,8 @@
 package com.buuz135.togetherforever.api.command;
 
-import com.buuz135.togetherforever.api.TogetherForeverAPI;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.server.FMLServerHandler;

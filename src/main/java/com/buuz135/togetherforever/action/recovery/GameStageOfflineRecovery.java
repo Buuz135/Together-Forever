@@ -1,17 +1,13 @@
 package com.buuz135.togetherforever.action.recovery;
 
-import com.buuz135.togetherforever.action.AdvancementEventSyncAction;
 import com.buuz135.togetherforever.api.IOfflineSyncRecovery;
 import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.data.TogetherRegistries;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import net.darkhax.gamestages.capabilities.PlayerDataHandler;
-import net.minecraft.advancements.Advancement;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.server.FMLServerHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +39,9 @@ public class GameStageOfflineRecovery implements IOfflineSyncRecovery {
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : offlineRecoveries.entries()) {
             if (entry.getKey().equals(playerInformation)) {
                 String stage = entry.getValue().getString("Stage");
-                if (playerInformation.getPlayer() != null && !PlayerDataHandler.getStageData(playerInformation.getPlayer()).hasUnlockedStage(stage)){
+                if (playerInformation.getPlayer() != null && !PlayerDataHandler.getStageData(playerInformation.getPlayer()).hasUnlockedStage(stage)) {
                     PlayerDataHandler.getStageData(playerInformation.getPlayer()).unlockStage(stage);
-                    playerInformation.getPlayer().sendMessage(new TextComponentString("You unlocked stage "+stage+"!"));
+                    playerInformation.getPlayer().sendMessage(new TextComponentString("You unlocked stage " + stage + "!"));
                     removeList.add(entry);
                 }
             }

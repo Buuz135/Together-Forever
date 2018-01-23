@@ -52,7 +52,7 @@ public class TogetherForever {
      */
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
-        if (event.getSide() == Side.SERVER){
+        if (event.getSide() == Side.SERVER) {
             LOGGER = event.getModLog();
             try {
                 registerSyncActions(event.getAsmData());
@@ -130,8 +130,8 @@ public class TogetherForever {
         }
     }
 
-    private boolean areDependenciesLoaded(String[] deps){
-        for (String dep : deps){
+    private boolean areDependenciesLoaded(String[] deps) {
+        for (String dep : deps) {
             if (!Loader.isModLoaded(dep)) return false;
         }
         return true;
