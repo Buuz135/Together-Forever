@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@SyncAction(id = "advancement_event_sync", dependencies = {"gamestages"})
+@SyncAction(id = "gamestage_event_sync", dependencies = {"gamestages"})
 public class GameStagesEventSyncAction extends EventSyncAction<GameStageEvent.Add, GameStageOfflineRecovery> {
 
     private ListMultimap<EntityPlayerMP, String> stageUnlocks;
