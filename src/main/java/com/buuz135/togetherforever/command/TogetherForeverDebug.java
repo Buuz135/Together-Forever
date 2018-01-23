@@ -1,5 +1,6 @@
 package com.buuz135.togetherforever.command;
 
+import com.buuz135.togetherforever.TogetherForever;
 import com.buuz135.togetherforever.api.TogetherForeverAPI;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -21,7 +22,7 @@ public class TogetherForeverDebug extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        System.out.println(TogetherForeverAPI.getInstance().getDataManager(server.getWorld(0)).writeToNBT(new NBTTagCompound()));
+        TogetherForever.LOGGER.info(TogetherForeverAPI.getInstance().getDataManager(server.getWorld(0)).writeToNBT(new NBTTagCompound()));
     }
 
     @Override
