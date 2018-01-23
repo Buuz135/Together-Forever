@@ -11,6 +11,8 @@ import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 
 public class DeclineInviteCommand extends SubCommandAction {
 
@@ -19,8 +21,8 @@ public class DeclineInviteCommand extends SubCommandAction {
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
-        if (args.length >= 2) {
+    public boolean execute(MinecraftServer server, ICommandSender sender, String[] args) {
+        if (args.length > 1) {
             try {
                 EntityPlayerMP inviteReciever = CommandBase.getCommandSenderAsPlayer(sender);
                 EntityPlayerMP inviteSender = TogetherForeverAPI.getInstance().getPlayer(args[1]);
@@ -32,13 +34,20 @@ public class DeclineInviteCommand extends SubCommandAction {
                             inviteReciever.sendMessage(new TextComponentString("You have declined the invite."));
                             inviteSender.sendMessage(new TextComponentString(inviteReciever.getName() + " has declined the invite!"));
                             TogetherForeverAPI.getInstance().getTeamInvites().remove(invite);
-                            break;
+                            return true;
                         }
                     }
                 }
+                sender.sendMessage(new TextComponentString(TextFormatting.RED + "Couldn't find a team invite for that player!"));
             } catch (PlayerNotFoundException e) {
-                e.printStackTrace();
+                sender.sendMessage(new TextComponentTranslation(e.getLocalizedMessage(), e.getErrorObjects()));
             }
         }
+        return false;
+    }
+
+    @Override
+    public String getUsage() {
+        return "<player_name>";
     }
 }

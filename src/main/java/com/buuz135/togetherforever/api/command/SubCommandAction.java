@@ -11,7 +11,9 @@ public abstract class SubCommandAction {
         this.subCommandName = subCommandName;
     }
 
-    public abstract void execute(MinecraftServer server, ICommandSender sender, String[] args);
+    public abstract boolean execute(MinecraftServer server, ICommandSender sender, String[] args);
+
+    public abstract String getUsage();
 
     public String getSubCommandName() {
         return subCommandName;

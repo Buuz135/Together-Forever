@@ -9,6 +9,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public class TeamLeaveCommand extends SubCommandAction {
 
@@ -17,15 +18,22 @@ public class TeamLeaveCommand extends SubCommandAction {
     }
 
     @Override
-    public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
+    public boolean execute(MinecraftServer server, ICommandSender sender, String[] args) {
         try {
             ITogetherTeam togetherTeam = TogetherForeverAPI.getInstance().getPlayerTeam(CommandBase.getCommandSenderAsPlayer(sender).getUniqueID());
             if (togetherTeam != null) {
                 TogetherForeverAPI.getInstance().removePlayerFromTeam(togetherTeam, DefaultPlayerInformation.createInformation(CommandBase.getCommandSenderAsPlayer(sender)));
                 CommandBase.getCommandSenderAsPlayer(sender).sendMessage(new TextComponentString("You successfully left your team."));
+                return true;
             }
         } catch (PlayerNotFoundException e) {
-            e.printStackTrace();
+            sender.sendMessage(new TextComponentTranslation(e.getLocalizedMessage(), e.getErrorObjects()));
         }
+        return false;
+    }
+
+    @Override
+    public String getUsage() {
+        return "<player_name>";
     }
 }

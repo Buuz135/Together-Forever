@@ -5,6 +5,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.server.FMLServerHandler;
 
 import javax.annotation.Nullable;
@@ -28,7 +30,11 @@ public class TogetherForeverCommand extends CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "";
+        StringBuilder builder = new StringBuilder("Usage: /tf <");
+        for (SubCommandAction action : subCommandActions) {
+            builder.append(action.getSubCommandName()).append("|");
+        }
+        return builder.deleteCharAt(builder.length() - 1).append(">").toString();
     }
 
     @Override
@@ -41,10 +47,14 @@ public class TogetherForeverCommand extends CommandBase {
         if (args.length >= 1) {
             for (SubCommandAction action : subCommandActions) {
                 if (action.getSubCommandName().equalsIgnoreCase(args[0])) {
-                    action.execute(server, sender, args);
+                    if (!action.execute(server, sender, args)) {
+                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "Usage: /tf " + action.getSubCommandName() + " " + action.getUsage()));
+                    }
+                    return;
                 }
             }
         }
+        sender.sendMessage(new TextComponentString(TextFormatting.RED + getUsage(sender)));
     }
 
     @Override
