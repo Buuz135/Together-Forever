@@ -1,10 +1,10 @@
 package com.buuz135.togetherforever.action;
 
+import com.buuz135.togetherforever.action.recovery.AdvancementOfflineRecovery;
 import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.api.ITogetherTeam;
 import com.buuz135.togetherforever.api.action.EventSyncAction;
 import com.buuz135.togetherforever.api.annotation.SyncAction;
-import com.buuz135.togetherforever.api.recovery.AdvancementOfflineRecovery;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;

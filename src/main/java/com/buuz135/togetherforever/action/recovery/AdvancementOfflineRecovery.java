@@ -1,4 +1,4 @@
-package com.buuz135.togetherforever.api.recovery;
+package com.buuz135.togetherforever.action.recovery;
 
 import com.buuz135.togetherforever.action.AdvancementEventSyncAction;
 import com.buuz135.togetherforever.api.IOfflineSyncRecovery;
@@ -89,7 +89,6 @@ public class AdvancementOfflineRecovery implements IOfflineSyncRecovery {
                     e.printStackTrace();
                 }
             }
-
         }
     }
 }
