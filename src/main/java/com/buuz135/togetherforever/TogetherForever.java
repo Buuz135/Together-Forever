@@ -30,7 +30,8 @@ import java.util.Arrays;
 @Mod(
         modid = TogetherForever.MOD_ID,
         name = TogetherForever.MOD_NAME,
-        version = TogetherForever.VERSION
+        version = TogetherForever.VERSION,
+        dependencies = "required:forge@[14.23.1.2560,);after:gamestages@[1.0.76,);"
 )
 public class TogetherForever {
 
