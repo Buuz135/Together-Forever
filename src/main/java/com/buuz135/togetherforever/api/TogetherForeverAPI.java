@@ -1,5 +1,6 @@
 package com.buuz135.togetherforever.api;
 
+import com.buuz135.togetherforever.api.event.TeamEvent;
 import com.buuz135.togetherforever.data.DataManager;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,6 +10,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.server.FMLServerHandler;
 
 import javax.annotation.Nullable;
@@ -35,16 +37,24 @@ public class TogetherForeverAPI {
 
     public void addTeam(ITogetherTeam togetherTeam) {
         DataManager dataManager = getDataManager(getWorld());
-        dataManager.getTeams().add(togetherTeam);
-        dataManager.markDirty();
+        TeamEvent.Create create = new TeamEvent.Create(togetherTeam);
+        MinecraftForge.EVENT_BUS.post(create);
+        if (!create.isCanceled()) {
+            dataManager.getTeams().add(create.getTogetherTeam());
+            dataManager.markDirty();
+        }
     }
 
     public void addPlayerToTeam(ITogetherTeam team, IPlayerInformation playerInformation) {
         DataManager manager = getDataManager(getWorld());
         for (ITogetherTeam togetherTeam : manager.getTeams()) {
             if (togetherTeam.getOwner().equals(team.getOwner()) && togetherTeam.getTeamName().equalsIgnoreCase(team.getTeamName())) {
-                togetherTeam.addPlayer(playerInformation);
-                manager.markDirty();
+                TeamEvent.PlayerAdd playerAdd = new TeamEvent.PlayerAdd(togetherTeam, playerInformation);
+                MinecraftForge.EVENT_BUS.post(playerAdd);
+                if (!playerAdd.isCanceled()) {
+                    playerAdd.getTogetherTeam().addPlayer(playerAdd.getPlayerInformation());
+                    manager.markDirty();
+                }
             }
         }
     }
@@ -53,8 +63,11 @@ public class TogetherForeverAPI {
         DataManager manager = getDataManager(getWorld());
         for (ITogetherTeam togetherTeam : manager.getTeams()) {
             if (togetherTeam.getOwner().equals(team.getOwner()) && togetherTeam.getTeamName().equalsIgnoreCase(team.getTeamName())) {
-                togetherTeam.removePlayer(playerInformation);
-                manager.markDirty();
+                TeamEvent.RemovePlayer removePlayer = new TeamEvent.RemovePlayer(togetherTeam, playerInformation);
+                if (!removePlayer.isCanceled()) {
+                    removePlayer.getTogetherTeam().removePlayer(removePlayer.getPlayerInformation());
+                    manager.markDirty();
+                }
             }
         }
     }
