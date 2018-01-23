@@ -24,6 +24,10 @@ import java.util.UUID;
  */
 public class TogetherForeverAPI {
 
+    public static final String MOD_ID = "togetherforever";
+    public static final String API_VERSION = "1";
+    public static final String API_ID = MOD_ID + "api";
+
     private static TogetherForeverAPI ourInstance = new TogetherForeverAPI();
     private List<TeamInvite> teamInvites;
 
