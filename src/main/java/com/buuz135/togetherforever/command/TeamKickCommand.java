@@ -37,9 +37,9 @@ public class TeamKickCommand extends SubCommandAction {
                     if (playerInformation.getName().equalsIgnoreCase(args[1])) {
                         TogetherForeverAPI.getInstance().removePlayerFromTeam(teamSender, playerInformation);
                         if (playerInformation.getPlayer() != null) {
-                            playerInformation.getPlayer().sendMessage(new TextComponentString("You have been removed from " + teamSender.getTeamName() + "'s team."));
+                            playerInformation.getPlayer().sendMessage(new TextComponentString(TextFormatting.RED + "You have been removed from " + teamSender.getTeamName() + "'s team."));
                         }
-                        commandSender.sendMessage(new TextComponentString("You successfully removed " + args[1] + " from your team"));
+                        commandSender.sendMessage(new TextComponentString(TextFormatting.RED + "You successfully removed " + args[1] + " from your team"));
                         return true;
                     }
                 }

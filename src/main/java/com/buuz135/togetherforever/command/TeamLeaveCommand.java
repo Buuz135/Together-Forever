@@ -10,6 +10,7 @@ import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 
 public class TeamLeaveCommand extends SubCommandAction {
 
@@ -23,7 +24,7 @@ public class TeamLeaveCommand extends SubCommandAction {
             ITogetherTeam togetherTeam = TogetherForeverAPI.getInstance().getPlayerTeam(CommandBase.getCommandSenderAsPlayer(sender).getUniqueID());
             if (togetherTeam != null) {
                 TogetherForeverAPI.getInstance().removePlayerFromTeam(togetherTeam, DefaultPlayerInformation.createInformation(CommandBase.getCommandSenderAsPlayer(sender)));
-                CommandBase.getCommandSenderAsPlayer(sender).sendMessage(new TextComponentString("You successfully left your team."));
+                CommandBase.getCommandSenderAsPlayer(sender).sendMessage(new TextComponentString(TextFormatting.GREEN + "You successfully left your team."));
                 return true;
             }
         } catch (PlayerNotFoundException e) {

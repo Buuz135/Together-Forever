@@ -5,6 +5,7 @@ import com.buuz135.togetherforever.api.ISyncAction;
 import com.buuz135.togetherforever.api.ITogetherTeam;
 import com.buuz135.togetherforever.api.TogetherForeverAPI;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 public class TeamInvite {
 
@@ -36,10 +37,10 @@ public class TeamInvite {
         if (announce) {
             for (IPlayerInformation info : team.getPlayers()) {
                 if (info.getPlayer() != null)
-                    info.getPlayer().sendMessage(new TextComponentString(reciever.getName() + " has joined your team."));
+                    info.getPlayer().sendMessage(new TextComponentString(TextFormatting.GREEN + reciever.getName() + " has joined your team."));
             }
             if (reciever.getPlayer() != null)
-                reciever.getPlayer().sendMessage(new TextComponentString("You have joined " + sender.getName() + "'s team."));
+                reciever.getPlayer().sendMessage(new TextComponentString(TextFormatting.GREEN + "You have joined " + sender.getName() + "'s team."));
         }
         if (syncActions) {
             for (ISyncAction action : TogetherRegistries.getSyncActions()) {

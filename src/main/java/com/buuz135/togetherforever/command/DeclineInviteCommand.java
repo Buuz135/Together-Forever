@@ -31,8 +31,8 @@ public class DeclineInviteCommand extends SubCommandAction {
                     IPlayerInformation infoSender = DefaultPlayerInformation.createInformation(inviteSender);
                     for (TeamInvite invite : TogetherForeverAPI.getInstance().getTeamInvites()) {
                         if (invite.getSender().equals(infoSender) && invite.getReciever().equals(infoReciever)) {
-                            inviteReciever.sendMessage(new TextComponentString("You have declined the invite."));
-                            inviteSender.sendMessage(new TextComponentString(inviteReciever.getName() + " has declined the invite!"));
+                            inviteReciever.sendMessage(new TextComponentString(TextFormatting.RED + "You have declined the invite."));
+                            inviteSender.sendMessage(new TextComponentString(TextFormatting.RED + inviteReciever.getName() + " has declined the invite!"));
                             TogetherForeverAPI.getInstance().getTeamInvites().remove(invite);
                             return true;
                         }
