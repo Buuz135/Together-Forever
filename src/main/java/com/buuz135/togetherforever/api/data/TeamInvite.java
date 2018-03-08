@@ -34,9 +34,11 @@ public class TeamInvite {
         }
         if (announce) {
             for (IPlayerInformation info : team.getPlayers()) {
-                info.getPlayer().sendMessage(new TextComponentString(reciever.getName() + " has joined your team."));
+                if (info.getPlayer() != null)
+                    info.getPlayer().sendMessage(new TextComponentString(reciever.getName() + " has joined your team."));
             }
-            reciever.getPlayer().sendMessage(new TextComponentString("You have joined " + sender.getName() + "'s team."));
+            if (reciever.getPlayer() != null)
+                reciever.getPlayer().sendMessage(new TextComponentString("You have joined " + sender.getName() + "'s team."));
         }
         TogetherForeverAPI.getInstance().addPlayerToTeam(team, reciever);
     }
