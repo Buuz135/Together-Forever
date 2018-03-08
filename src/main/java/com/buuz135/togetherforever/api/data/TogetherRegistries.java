@@ -6,6 +6,7 @@ import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.api.ISyncAction;
 import com.buuz135.togetherforever.api.ITogetherTeam;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,6 +119,8 @@ public class TogetherRegistries {
         return null;
     }
 
-
+    public static Collection<ISyncAction> getSyncActions() {
+        return SYNC_ACTION_REGISTRY.values();
+    }
 }
 

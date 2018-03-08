@@ -43,6 +43,19 @@ public class AdvancementEventSyncAction extends EventSyncAction<AdvancementEvent
     }
 
     @Override
+    public void syncJoinPlayer(IPlayerInformation toBeSynced, IPlayerInformation teamMember) {
+        if (teamMember.getPlayer() != null && toBeSynced.getPlayer() != null) {
+            EntityPlayerMP member = teamMember.getPlayer();
+            EntityPlayerMP sync = toBeSynced.getPlayer();
+            for (Advancement advancement : member.getServerWorld().getAdvancementManager().getAdvancements()) {
+                for (String crit : member.getAdvancements().getProgress(advancement).getCompletedCriteria()) {
+                    sync.getAdvancements().grantCriterion(advancement, crit);
+                }
+            }
+        }
+    }
+
+    @Override
     public NBTTagCompound transformEventToNBT(AdvancementEvent event) {
         NBTTagCompound compound = new NBTTagCompound();
         compound.setString("AdvancementId", event.getAdvancement().getId().toString());

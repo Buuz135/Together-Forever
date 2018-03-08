@@ -31,7 +31,7 @@ public class AcceptInviteCommand extends SubCommandAction {
                     IPlayerInformation infoSender = DefaultPlayerInformation.createInformation(inviteSender);
                     for (TeamInvite invite : TogetherForeverAPI.getInstance().getTeamInvites()) {
                         if (invite.getSender().equals(infoSender) && invite.getReciever().equals(infoReciever)) {
-                            invite.acceptInvite(true);
+                            invite.acceptInvite(true, true);
                             TogetherForeverAPI.getInstance().getTeamInvites().remove(invite);
                             return true;
                         }

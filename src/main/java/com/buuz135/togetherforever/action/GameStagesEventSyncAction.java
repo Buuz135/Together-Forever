@@ -54,13 +54,26 @@ public class GameStagesEventSyncAction extends EventSyncAction<GameStageEvent.Ad
         return playerInformations;
     }
 
+    @Override
+    public void syncJoinPlayer(IPlayerInformation toBeSynced, IPlayerInformation teamMember) {
+        if (teamMember.getPlayer() != null && toBeSynced.getPlayer() != null) {
+            for (String s : PlayerDataHandler.getStageData(teamMember.getPlayer()).getUnlockedStages()) {
+                unlockPlayerStage(toBeSynced.getPlayer(), s);
+            }
+        }
+    }
+
+    private void unlockPlayerStage(EntityPlayerMP playerMP, String stage) {
+        if (!PlayerDataHandler.getStageData(playerMP).hasUnlockedStage(stage)) {
+            PlayerDataHandler.getStageData(playerMP).unlockStage(stage);
+            playerMP.sendMessage(new TextComponentString("You unlocked stage " + stage + "!"));
+        }
+    }
+
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event) {
         for (Map.Entry<EntityPlayerMP, String> entityPlayerMPStringEntry : stageUnlocks.entries()) {
-            if (!PlayerDataHandler.getStageData(entityPlayerMPStringEntry.getKey()).hasUnlockedStage(entityPlayerMPStringEntry.getValue())) {
-                PlayerDataHandler.getStageData(entityPlayerMPStringEntry.getKey()).unlockStage(entityPlayerMPStringEntry.getValue());
-                entityPlayerMPStringEntry.getKey().sendMessage(new TextComponentString("You unlocked stage " + entityPlayerMPStringEntry.getValue() + "!"));
-            }
+            unlockPlayerStage(entityPlayerMPStringEntry.getKey(), entityPlayerMPStringEntry.getValue());
         }
         stageUnlocks.clear();
     }

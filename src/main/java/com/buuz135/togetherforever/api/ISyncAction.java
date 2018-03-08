@@ -24,4 +24,11 @@ public interface ISyncAction<T extends Object, S extends IOfflineSyncRecovery> {
      */
     Class<S> getOfflineRecovery();
 
+    /**
+     * Sync everything from one player into another
+     *
+     * @param toBeSynced The player that needs to be synced
+     * @param teamMember The player that has the information to sync
+     */
+    void syncJoinPlayer(IPlayerInformation toBeSynced, IPlayerInformation teamMember);
 }

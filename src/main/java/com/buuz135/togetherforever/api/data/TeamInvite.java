@@ -1,6 +1,7 @@
 package com.buuz135.togetherforever.api.data;
 
 import com.buuz135.togetherforever.api.IPlayerInformation;
+import com.buuz135.togetherforever.api.ISyncAction;
 import com.buuz135.togetherforever.api.ITogetherTeam;
 import com.buuz135.togetherforever.api.TogetherForeverAPI;
 import net.minecraft.util.text.TextComponentString;
@@ -25,7 +26,7 @@ public class TeamInvite {
         return reciever;
     }
 
-    public void acceptInvite(boolean announce) {
+    public void acceptInvite(boolean announce, boolean syncActions) {
         ITogetherTeam team = TogetherForeverAPI.getInstance().getPlayerTeam(sender.getUUID());
         if (team == null) {
             team = new DefaultTogetherTeam();
@@ -39,6 +40,11 @@ public class TeamInvite {
             }
             if (reciever.getPlayer() != null)
                 reciever.getPlayer().sendMessage(new TextComponentString("You have joined " + sender.getName() + "'s team."));
+        }
+        if (syncActions) {
+            for (ISyncAction action : TogetherRegistries.getSyncActions()) {
+                action.syncJoinPlayer(reciever, sender);
+            }
         }
         TogetherForeverAPI.getInstance().addPlayerToTeam(team, reciever);
     }
