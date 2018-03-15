@@ -16,6 +16,10 @@ public class TogetherForeverConfig {
     @Config.Comment("If enabled, players in the same team will sync the gamestages")
     public static boolean gamestagesSync = true;
 
+    @Config.Comment("Amount of seconds the syncing will be delayed on world join")
+    @Config.RangeInt(min = 0)
+    public static int syncDataSecondsDelay = 20;
+
     @Mod.EventBusSubscriber(modid = TogetherForever.MOD_ID)
     private static class EventHandler {
         @SubscribeEvent

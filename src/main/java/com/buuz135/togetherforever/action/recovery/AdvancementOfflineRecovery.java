@@ -44,8 +44,8 @@ public class AdvancementOfflineRecovery implements IOfflineSyncRecovery {
                 Advancement advancement = FMLServerHandler.instance().getServer().getAdvancementManager().getAdvancement(location);
                 if (advancement != null) {
                     AdvancementEventSyncAction.grantAllParentAchievements(playerInformation.getPlayer(), advancement);
-                    removeList.add(entry);
                 }
+                removeList.add(entry);
             }
         }
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : removeList) {

@@ -42,8 +42,8 @@ public class GameStageOfflineRecovery implements IOfflineSyncRecovery {
                 if (playerInformation.getPlayer() != null && !PlayerDataHandler.getStageData(playerInformation.getPlayer()).hasUnlockedStage(stage)) {
                     PlayerDataHandler.getStageData(playerInformation.getPlayer()).unlockStage(stage);
                     playerInformation.getPlayer().sendMessage(new TextComponentString("You unlocked stage " + stage + "!"));
-                    removeList.add(entry);
                 }
+                removeList.add(entry);
             }
         }
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : removeList) {

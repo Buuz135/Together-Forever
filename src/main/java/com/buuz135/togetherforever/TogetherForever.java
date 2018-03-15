@@ -9,8 +9,11 @@ import com.buuz135.togetherforever.api.data.DataManager;
 import com.buuz135.togetherforever.api.data.DefaultPlayerInformation;
 import com.buuz135.togetherforever.api.data.TogetherRegistries;
 import com.buuz135.togetherforever.command.*;
+import com.buuz135.togetherforever.config.TogetherForeverConfig;
 import com.buuz135.togetherforever.utils.AnnotationHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Loader;
@@ -21,10 +24,15 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.server.FMLServerHandler;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 
 @Mod(
@@ -43,6 +51,7 @@ public class TogetherForever {
 
     //Add a comand to force sync players
     //Delay the sync a few ticks
+    //Sync other player stuff when player joins
     /**
      * This is the instance of your mod as created by Forge. It will never be null.
      */
@@ -91,15 +100,37 @@ public class TogetherForever {
         event.registerServerCommand(new TogetherForeverDebug());
     }
 
+    public static HashMap<String, Long> joinedPlayers = new HashMap<>();
+
     @SubscribeEvent
     public void playerJoin(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof EntityPlayerMP) {
-            DefaultPlayerInformation information = DefaultPlayerInformation.createInformation((EntityPlayerMP) event.getEntity());
-            DataManager manager = TogetherForeverAPI.getInstance().getDataManager(event.getWorld());
-            for (IOfflineSyncRecovery recovery : manager.getRecoveries()) {
-                recovery.recoverMissingPlayer(information);
+        if (event.getEntity() instanceof EntityPlayerMP && TogetherForeverAPI.getInstance().getPlayerTeam(event.getEntity().getUniqueID()) != null) {
+            joinedPlayers.put(event.getEntity().getName(), System.currentTimeMillis());
+            if (TogetherForeverConfig.syncDataSecondsDelay > 0)
+                event.getEntity().sendMessage(new TextComponentString(TextFormatting.GOLD + "Syncing team data in " + TogetherForeverConfig.syncDataSecondsDelay + " seconds!"));
+        }
+    }
+
+    @SubscribeEvent
+    public void onServerTick(TickEvent.ServerTickEvent event) {
+        List<String> remove = new ArrayList<>();
+        for (String name : joinedPlayers.keySet()) {
+            if (System.currentTimeMillis() - joinedPlayers.get(name) >= TogetherForeverConfig.syncDataSecondsDelay * 1000) {
+                remove.add(name);
+                EntityPlayerMP playerMP = FMLServerHandler.instance().getServer().getPlayerList().getPlayerByUsername(name);
+                if (playerMP != null) {
+                    playerMP.sendMessage(new TextComponentString(TextFormatting.GOLD + "Trying to sync team data now!"));
+                    DefaultPlayerInformation information = DefaultPlayerInformation.createInformation(playerMP);
+                    DataManager manager = TogetherForeverAPI.getInstance().getDataManager(playerMP.world);
+                    for (IOfflineSyncRecovery recovery : manager.getRecoveries()) {
+                        recovery.recoverMissingPlayer(information);
+                    }
+                    manager.markDirty();
+                }
             }
-            manager.markDirty();
+        }
+        for (String s : remove) {
+            joinedPlayers.remove(s);
         }
     }
 
