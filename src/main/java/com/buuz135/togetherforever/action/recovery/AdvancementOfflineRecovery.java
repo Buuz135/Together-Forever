@@ -39,7 +39,7 @@ public class AdvancementOfflineRecovery implements IOfflineSyncRecovery {
     public void recoverMissingPlayer(IPlayerInformation playerInformation) {
         List<Map.Entry<IPlayerInformation, NBTTagCompound>> removeList = new ArrayList<>();
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : offlineRecoveries.entries()) {
-            if (entry.getKey().equals(playerInformation)) {
+            if (entry.getKey().getUUID().equals(playerInformation.getUUID())) {
                 ResourceLocation location = new ResourceLocation(entry.getValue().getString("AdvancementId"));
                 Advancement advancement = FMLServerHandler.instance().getServer().getAdvancementManager().getAdvancement(location);
                 if (advancement != null) {
@@ -73,6 +73,7 @@ public class AdvancementOfflineRecovery implements IOfflineSyncRecovery {
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
+        offlineRecoveries.clear();
         for (String uuid : compound.getKeySet()) {
             NBTTagCompound recovery = compound.getCompoundTag(uuid);
             Class plClass = TogetherRegistries.getPlayerInformationClass(recovery.getString("PlayerID"));

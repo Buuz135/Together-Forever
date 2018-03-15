@@ -37,7 +37,7 @@ public class GameStageOfflineRecovery implements IOfflineSyncRecovery {
     public void recoverMissingPlayer(IPlayerInformation playerInformation) {
         List<Map.Entry<IPlayerInformation, NBTTagCompound>> removeList = new ArrayList<>();
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : offlineRecoveries.entries()) {
-            if (entry.getKey().equals(playerInformation)) {
+            if (entry.getKey().getUUID().equals(playerInformation.getUUID())) {
                 String stage = entry.getValue().getString("Stage");
                 if (playerInformation.getPlayer() != null && !PlayerDataHandler.getStageData(playerInformation.getPlayer()).hasUnlockedStage(stage)) {
                     PlayerDataHandler.getStageData(playerInformation.getPlayer()).unlockStage(stage);
@@ -71,6 +71,7 @@ public class GameStageOfflineRecovery implements IOfflineSyncRecovery {
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
+        offlineRecoveries.clear();
         for (String uuid : compound.getKeySet()) {
             NBTTagCompound recovery = compound.getCompoundTag(uuid);
             Class plClass = TogetherRegistries.getPlayerInformationClass(recovery.getString("PlayerID"));
