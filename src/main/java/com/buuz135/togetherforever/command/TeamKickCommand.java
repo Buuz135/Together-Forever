@@ -29,7 +29,7 @@ public class TeamKickCommand extends SubCommandAction {
                     commandSender.sendMessage(new TextComponentString(TextFormatting.RED + "You don't have a team!"));
                     return false;
                 }
-                if (teamSender.getOwner().equals(commandSender.getUniqueID())) {
+                if (!teamSender.getOwner().equals(commandSender.getUniqueID())) {
                     commandSender.sendMessage(new TextComponentString(TextFormatting.RED + "You can't do that! You are not the owner of the team!"));
                     return false;
                 }

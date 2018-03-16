@@ -1,6 +1,7 @@
 # 1.0.2
 + Added more safety checks for player info comparison 
 + Added a config option to delay the team syncing action
++ Fixed team owners no being able to kick team members
 
 # 1.0.1
 + Safe check for missing players when accepting invites

@@ -50,7 +50,6 @@ public class TogetherForever {
     public static Logger LOGGER;
 
     //Add a comand to force sync players
-    //Delay the sync a few ticks
     //Sync other player stuff when player joins
     /**
      * This is the instance of your mod as created by Forge. It will never be null.
