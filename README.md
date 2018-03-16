@@ -10,3 +10,5 @@ All the types of sync can be disabled in the config
 + `/tf leave` - Leaves your current team
 + `/tf info` - Shows information about your team
 + `/tf forcesync` - Forces the sync of team information
+
+You can also use `/together <sub_command>` or `/togetherforever <sub_command>`
