@@ -7,6 +7,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.server.FMLServerHandler;
 
 import javax.annotation.Nullable;
@@ -44,6 +46,7 @@ public class TogetherForeverCommand extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) return;
         if (args.length >= 1) {
             for (SubCommandAction action : subCommandActions) {
                 if (action.getSubCommandName().equalsIgnoreCase(args[0])) {

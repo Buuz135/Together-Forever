@@ -3,6 +3,7 @@
 + Added a config option to delay the team syncing action
 + Fixed team owners no being able to kick team members
 + Added more descriptive leave message for the other members of the team
++ Added a forcesync command that allows to ... force sync team data 
 
 # 1.0.1
 + Safe check for missing players when accepting invites

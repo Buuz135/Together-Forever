@@ -9,3 +9,4 @@ All the types of sync can be disabled in the config
 + `/tf kick <player_name>` - It kicks a player from your team, only the player that created the team is allowed to run the command
 + `/tf leave` - Leaves your current team
 + `/tf info` - Shows information about your team
++ `/tf forcesync` - Forces the sync of team information

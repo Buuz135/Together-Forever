@@ -94,7 +94,7 @@ public class TogetherForever {
 
     @Mod.EventHandler
     public void serverLoad(FMLServerStartingEvent event) {
-        TogetherForeverCommand command = new TogetherForeverCommand(Arrays.asList(new InviteCommand(), new AcceptInviteCommand(), new DeclineInviteCommand(), new TeamKickCommand(), new TeamLeaveCommand(), new TeamInfoCommand()));
+        TogetherForeverCommand command = new TogetherForeverCommand(Arrays.asList(new InviteCommand(), new AcceptInviteCommand(), new DeclineInviteCommand(), new TeamKickCommand(), new TeamLeaveCommand(), new TeamInfoCommand(), new ForceSyncCommand()));
         event.registerServerCommand(command);
         event.registerServerCommand(new TogetherForeverDebug());
     }
