@@ -15,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
@@ -24,6 +23,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.server.FMLServerHandler;
@@ -102,11 +102,11 @@ public class TogetherForever {
     public static HashMap<String, Long> joinedPlayers = new HashMap<>();
 
     @SubscribeEvent
-    public void playerJoin(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof EntityPlayerMP && TogetherForeverAPI.getInstance().getPlayerTeam(event.getEntity().getUniqueID()) != null) {
-            joinedPlayers.put(event.getEntity().getName(), System.currentTimeMillis());
+    public void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.player instanceof EntityPlayerMP && TogetherForeverAPI.getInstance().getPlayerTeam(event.player.getUniqueID()) != null) {
+            joinedPlayers.put(event.player.getName(), System.currentTimeMillis());
             if (TogetherForeverConfig.syncDataSecondsDelay > 0)
-                event.getEntity().sendMessage(new TextComponentString(TextFormatting.GOLD + "Syncing team data in " + TogetherForeverConfig.syncDataSecondsDelay + " seconds!"));
+                event.player.sendMessage(new TextComponentString(TextFormatting.GOLD + "Syncing team data in " + TogetherForeverConfig.syncDataSecondsDelay + " seconds!"));
         }
     }
 
