@@ -1,3 +1,6 @@
+# 1.0.3
++ Team syncing only triggers when joining a server and not when changing dimensions
+
 # 1.0.2
 + Added more safety checks for player info comparison 
 + Added a config option to delay the team syncing action
