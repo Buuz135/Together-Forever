@@ -45,4 +45,9 @@ public class ForceSyncCommand extends SubCommandAction {
     public String getUsage() {
         return "";
     }
+
+    @Override
+    public String getInfo() {
+        return "Forces a sync from a another player of the team";
+    }
 }

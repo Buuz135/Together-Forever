@@ -3,6 +3,7 @@ Together Forever is a Team API that allows you to sync stuff like advancements o
 All the types of sync can be disabled in the config
 
 ## Commands
++ `/tf help` - 
 + `/tf invite <player_name>` - Invites a player to your team, if you don't have a team it will be created
 + `/tf accept <player_name>` - Accepts the invite to join that player's team
 + `/tf decline <player_name>` - Declines the invite to join that player's team

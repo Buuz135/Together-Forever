@@ -50,4 +50,9 @@ public class AcceptInviteCommand extends SubCommandAction {
         return "<player_name>";
     }
 
+    @Override
+    public String getInfo() {
+        return "Accepts an invite to join a team from a player";
+    }
+
 }

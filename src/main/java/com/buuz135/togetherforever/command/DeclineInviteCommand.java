@@ -50,4 +50,9 @@ public class DeclineInviteCommand extends SubCommandAction {
     public String getUsage() {
         return "<player_name>";
     }
+
+    @Override
+    public String getInfo() {
+        return "Declines an invite from a player";
+    }
 }

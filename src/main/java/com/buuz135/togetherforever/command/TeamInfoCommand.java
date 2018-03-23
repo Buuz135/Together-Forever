@@ -44,6 +44,11 @@ public class TeamInfoCommand extends SubCommandAction {
         return "";
     }
 
+    @Override
+    public String getInfo() {
+        return "Gets the players of your team";
+    }
+
     private String getFormatedName(IPlayerInformation playerInformation, boolean online, boolean owner, boolean yourself) {
         StringBuilder builder = new StringBuilder(" - ");
         if (yourself) builder.append(TextFormatting.GOLD + "[");

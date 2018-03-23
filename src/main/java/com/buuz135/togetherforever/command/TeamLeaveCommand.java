@@ -45,4 +45,9 @@ public class TeamLeaveCommand extends SubCommandAction {
     public String getUsage() {
         return "";
     }
+
+    @Override
+    public String getInfo() {
+        return "Leaves your current team";
+    }
 }

@@ -18,12 +18,14 @@ import java.util.stream.Collectors;
 
 public class TogetherForeverCommand extends CommandBase {
 
+    public static TogetherForeverCommand command;
+
     private final List<SubCommandAction> subCommandActions;
 
     public TogetherForeverCommand(List<SubCommandAction> subCommandActions) {
         this.subCommandActions = subCommandActions;
+        command = this;
     }
-
 
     @Override
     public String getName() {
@@ -75,5 +77,9 @@ public class TogetherForeverCommand extends CommandBase {
     @Override
     public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
         return true;
+    }
+
+    public List<SubCommandAction> getSubCommandActions() {
+        return subCommandActions;
     }
 }

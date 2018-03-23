@@ -55,4 +55,9 @@ public class TeamKickCommand extends SubCommandAction {
     public String getUsage() {
         return "<player_name>";
     }
+
+    @Override
+    public String getInfo() {
+        return "Kicks a player of your team. Only teams owners can do it.";
+    }
 }

@@ -18,4 +18,6 @@ public abstract class SubCommandAction {
     public String getSubCommandName() {
         return subCommandName;
     }
+
+    public abstract String getInfo();
 }

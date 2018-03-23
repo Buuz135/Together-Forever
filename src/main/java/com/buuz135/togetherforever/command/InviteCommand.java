@@ -43,4 +43,9 @@ public class InviteCommand extends SubCommandAction {
     public String getUsage() {
         return "<player_name>";
     }
+
+    @Override
+    public String getInfo() {
+        return "Invites a player to your team, if you don't have a team it will be created";
+    }
 }
