@@ -9,7 +9,6 @@ import com.buuz135.togetherforever.action.recovery.ReskillableLevelUpOfflineReco
 import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.api.ITogetherTeam;
 import com.buuz135.togetherforever.api.action.EventSyncAction;
-import com.buuz135.togetherforever.api.annotation.SyncAction;
 import com.buuz135.togetherforever.config.TogetherForeverConfig;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,7 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import java.util.ArrayList;
 import java.util.List;
 
-@SyncAction(id = "reskillable_level_up_event_sync", dependencies = {"reskillable"})
+//@SyncAction(id = "reskillable_level_up_event_sync", dependencies = {"reskillable"})
 public class ReskillableLevelUpEventSyncAction extends EventSyncAction<LevelUpEvent.Post, ReskillableLevelUpOfflineRecovery> {
 
     public ReskillableLevelUpEventSyncAction() {

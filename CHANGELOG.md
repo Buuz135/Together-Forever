@@ -1,6 +1,7 @@
-# 1.1.0
-+ Added Reskillable Level team sync
+# 1.0.4
++ Added Reskillable Level team sync (Currently disabled)
 + Added /tf help
++ Fixed a concurrent modification exception that shouldn't happen in the first time
 
 # 1.0.3
 + Team syncing only triggers when joining a server and not when changing dimensions
