@@ -15,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
@@ -25,8 +26,6 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.server.FMLServerHandler;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
@@ -56,6 +55,7 @@ public class TogetherForever {
      */
     @Mod.Instance(MOD_ID)
     public static TogetherForever INSTANCE;
+    public static HashMap<String, Long> joinedPlayers = new HashMap<>();
 
     /**
      * This is the first initialization event. Register tile entities here.
@@ -63,17 +63,15 @@ public class TogetherForever {
      */
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
-        if (event.getSide() == Side.SERVER) {
-            LOGGER = event.getModLog();
-            try {
-                registerSyncActions(event.getAsmData());
-                registerTogetherTeams(event.getAsmData());
-                registerPlayerInformations(event.getAsmData());
-            } catch (IllegalAccessException | InstantiationException e) {
-                e.printStackTrace();
-            }
-            MinecraftForge.EVENT_BUS.register(this);
+        LOGGER = event.getModLog();
+        try {
+            registerSyncActions(event.getAsmData());
+            registerTogetherTeams(event.getAsmData());
+            registerPlayerInformations(event.getAsmData());
+        } catch (IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
         }
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     /**
@@ -99,8 +97,6 @@ public class TogetherForever {
         event.registerServerCommand(new TogetherForeverDebug());
     }
 
-    public static HashMap<String, Long> joinedPlayers = new HashMap<>();
-
     @SubscribeEvent
     public void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.player instanceof EntityPlayerMP && TogetherForeverAPI.getInstance().getPlayerTeam(event.player.getUniqueID()) != null) {
@@ -116,7 +112,7 @@ public class TogetherForever {
         for (String name : joinedPlayers.keySet()) {
             if (System.currentTimeMillis() - joinedPlayers.get(name) >= TogetherForeverConfig.syncDataSecondsDelay * 1000) {
                 remove.add(name);
-                EntityPlayerMP playerMP = FMLServerHandler.instance().getServer().getPlayerList().getPlayerByUsername(name);
+                EntityPlayerMP playerMP = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUsername(name);
                 if (playerMP != null) {
                     playerMP.sendMessage(new TextComponentString(TextFormatting.GOLD + "Trying to sync team data now!"));
                     DefaultPlayerInformation information = DefaultPlayerInformation.createInformation(playerMP);

@@ -1,5 +1,6 @@
 # 1.0.5
 + Added even more descriptive commands
++ Made it work in non real servers (LAN)
 
 # 1.0.4
 + Added Reskillable Level team sync (Currently disabled)

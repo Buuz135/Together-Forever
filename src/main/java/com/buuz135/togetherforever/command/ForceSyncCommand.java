@@ -30,13 +30,14 @@ public class ForceSyncCommand extends SubCommandAction {
             if (togetherTeam != null) {
                 for (IPlayerInformation playerInformation : togetherTeam.getPlayers()) {
                     EntityPlayerMP playerMP = playerInformation.getPlayer();
-                    if (playerMP != null) {
+                    if (playerMP != null && !senderPlayer.getUniqueID().equals(playerMP.getUniqueID())) {
                         sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Trying to sync data from " + playerMP.getName() + " please don't hurt yourself in the process!"));
                         for (ISyncAction action : TogetherRegistries.getSyncActions()) {
                             action.syncJoinPlayer(DefaultPlayerInformation.createInformation(senderPlayer), playerInformation);
                         }
                     }
                 }
+                return true;
             }
         } catch (PlayerNotFoundException e) {
             sender.sendMessage(new TextComponentTranslation(e.getLocalizedMessage(), e.getErrorObjects()));
@@ -51,6 +52,6 @@ public class ForceSyncCommand extends SubCommandAction {
 
     @Override
     public String getInfo() {
-        return "Forces a sync from a another player of the team";
+        return "Forces a sync from another player of the team";
     }
 }

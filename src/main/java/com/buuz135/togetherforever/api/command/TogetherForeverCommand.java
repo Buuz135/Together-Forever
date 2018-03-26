@@ -8,8 +8,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.server.FMLServerHandler;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -48,7 +46,6 @@ public class TogetherForeverCommand extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) {
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) return;
         if (args.length >= 1) {
             for (SubCommandAction action : subCommandActions) {
                 if (action.getSubCommandName().equalsIgnoreCase(args[0])) {
@@ -69,7 +66,7 @@ public class TogetherForeverCommand extends CommandBase {
             return subCommandActions.stream().map(SubCommandAction::getSubCommandName).collect(Collectors.toList());
         if (args.length > 1) {
             if (args[0].equalsIgnoreCase("invite") || args[0].equalsIgnoreCase("accept") || args[0].equalsIgnoreCase("decline") || args[0].equalsIgnoreCase("kick")) {
-                return FMLServerHandler.instance().getServer().getPlayerList().getPlayers().stream().map(EntityPlayer::getName).collect(Collectors.toList());
+                return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers().stream().map(EntityPlayer::getName).collect(Collectors.toList());
             }
         }
         return Arrays.asList();

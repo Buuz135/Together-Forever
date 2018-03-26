@@ -27,18 +27,21 @@ public interface IOfflineSyncRecovery {
 
     /**
      * Syncs all the actions that a player missed when he was offline
+     *
      * @param playerInformation The Player information that needs a recovery
      */
     void recoverMissingPlayer(IPlayerInformation playerInformation);
 
     /**
      * Transforms the OfflineSyncRecovery into NBT to be stored in the world so it can be saved properly
+     *
      * @return The OfflineSyncRecovery transformed into NBT
      */
     NBTTagCompound writeToNBT();
 
     /**
      * Reads all the information stored as NBT into the OfflineSyncRecovery
+     *
      * @param compound The OfflineSyncRecovery previously stored as NBT
      */
     void readFromNBT(NBTTagCompound compound);

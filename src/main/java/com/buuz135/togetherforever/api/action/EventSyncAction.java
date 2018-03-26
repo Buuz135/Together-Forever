@@ -21,7 +21,8 @@ public abstract class EventSyncAction<T extends PlayerEvent, S extends IOfflineS
 
     /**
      * Default constructor of the class
-     * @param eventClass The Event class of the SyncAction that will get automatically registered
+     *
+     * @param eventClass      The Event class of the SyncAction that will get automatically registered
      * @param offlineRecovery The Offline Recovery class for the this SyncAction
      */
     public EventSyncAction(Class<T> eventClass, Class<S> offlineRecovery) {
@@ -33,6 +34,7 @@ public abstract class EventSyncAction<T extends PlayerEvent, S extends IOfflineS
     /**
      * Triggers the event, gets the Player of the PlayerEvent, gets the {@link ITogetherTeam} from the Player,
      * triggers the SyncAction for all the team and stores all players offline in the OfflineSyncRecovery for later use
+     *
      * @param event The event with same class as T
      */
     @SubscribeEvent
@@ -50,6 +52,7 @@ public abstract class EventSyncAction<T extends PlayerEvent, S extends IOfflineS
 
     /**
      * Getter of the IOfflineRecovery
+     *
      * @return The class
      */
     @Override
@@ -59,6 +62,7 @@ public abstract class EventSyncAction<T extends PlayerEvent, S extends IOfflineS
 
     /**
      * Transforms an event into a NBTTagCompound so it can be stored in the world for the IOfflineSyncRecovey
+     *
      * @param event The event to transform
      * @return The transformed NBTTagCompound of the Event
      */

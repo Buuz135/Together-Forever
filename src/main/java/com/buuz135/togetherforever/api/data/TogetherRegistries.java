@@ -29,6 +29,7 @@ public class TogetherRegistries {
 
     /**
      * Gets a sync action id from it's recovery
+     *
      * @param recovery The IOfflineSyncRecovery
      * @return The id of the SyncAction, null if doesn't exist
      */
@@ -41,6 +42,7 @@ public class TogetherRegistries {
 
     /**
      * Gets a SyncAction from it's id
+     *
      * @param id The id of the SyncAction
      * @return the SyncAction, null if it doesn't exist
      */
@@ -53,7 +55,8 @@ public class TogetherRegistries {
 
     /**
      * Registers a together team class
-     * @param id The ID of the team type
+     *
+     * @param id   The ID of the team type
      * @param team The class of the TogetherTeam
      */
     public static void registerTogetherTeam(String id, Class<? extends ITogetherTeam> team) {
@@ -63,7 +66,8 @@ public class TogetherRegistries {
 
     /**
      * Registers a PlayerInformation class
-     * @param id The id of the PlayerInformation
+     *
+     * @param id     The id of the PlayerInformation
      * @param player The PlayerInformation class
      */
     public static void registerPlayerInformation(String id, Class<? extends IPlayerInformation> player) {
@@ -73,6 +77,7 @@ public class TogetherRegistries {
 
     /**
      * Gets the ID of a PlayerInformation
+     *
      * @param aClass The class of the PlayerInformation
      * @return The ID, null if doesn't exist
      */
@@ -85,6 +90,7 @@ public class TogetherRegistries {
 
     /**
      * Gets the PlayerInformation class from it's id
+     *
      * @param id The id of the PlayerInformation
      * @return The PlayerInformation class, null if it doesn't exist
      */
@@ -97,6 +103,7 @@ public class TogetherRegistries {
 
     /**
      * Gets the ID of a TogetherTeam class
+     *
      * @param aClass The Together team class
      * @return The id of the team, null if doesn't exist
      */
@@ -109,6 +116,7 @@ public class TogetherRegistries {
 
     /**
      * Gets the TogetherTeam class for the ID
+     *
      * @param id The id of the team
      * @return The TeamTogether class, null if it doesn't exist
      */

@@ -12,7 +12,8 @@ public interface ISyncAction<T extends Object, S extends IOfflineSyncRecovery> {
 
     /**
      * Triggers a sync of the action returning a list of PlayersInformation the were offline for the sync
-     * @param object The object of the action
+     *
+     * @param object       The object of the action
      * @param togetherTeam The team the will get the action triggered
      * @return A list of PlayersInformation that were offline
      */

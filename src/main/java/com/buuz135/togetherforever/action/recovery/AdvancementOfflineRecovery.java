@@ -9,7 +9,7 @@ import com.google.common.collect.ListMultimap;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.server.FMLServerHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ public class AdvancementOfflineRecovery implements IOfflineSyncRecovery {
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : new ArrayList<>(offlineRecoveries.entries())) {
             if (entry.getKey().getUUID().equals(playerInformation.getUUID())) {
                 ResourceLocation location = new ResourceLocation(entry.getValue().getString("AdvancementId"));
-                Advancement advancement = FMLServerHandler.instance().getServer().getAdvancementManager().getAdvancement(location);
+                Advancement advancement = FMLCommonHandler.instance().getMinecraftServerInstance().getAdvancementManager().getAdvancement(location);
                 if (advancement != null) {
                     AdvancementEventSyncAction.grantAllParentAchievements(playerInformation.getPlayer(), advancement);
                 }

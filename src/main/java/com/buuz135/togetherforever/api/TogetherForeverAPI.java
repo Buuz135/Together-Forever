@@ -12,7 +12,7 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.server.FMLServerHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -50,6 +50,7 @@ public class TogetherForeverAPI {
 
     /**
      * Adds a team to the API
+     *
      * @param togetherTeam The team to add
      */
     public void addTeam(ITogetherTeam togetherTeam) {
@@ -64,7 +65,8 @@ public class TogetherForeverAPI {
 
     /**
      * Adds a player to a team using the team unique identifiers to search it.
-     * @param team The team to add the player to
+     *
+     * @param team              The team to add the player to
      * @param playerInformation The information of the player that needs to be added to the team
      */
     public void addPlayerToTeam(ITogetherTeam team, IPlayerInformation playerInformation) {
@@ -83,7 +85,8 @@ public class TogetherForeverAPI {
 
     /**
      * Removes a player from a team using the team unique identifiers to search it
-     * @param team The team to remove the player from
+     *
+     * @param team              The team to remove the player from
      * @param playerInformation The information of the player that needs to be removed from the team
      */
     public void removePlayerFromTeam(ITogetherTeam team, IPlayerInformation playerInformation) {
@@ -101,6 +104,7 @@ public class TogetherForeverAPI {
 
     /**
      * Gets the team of a player
+     *
      * @param playerUUID The UUID of the player to get the team from
      * @return The team of the player, null if the player isn't in a team
      */
@@ -116,8 +120,9 @@ public class TogetherForeverAPI {
 
     /**
      * Creates an invite to join a team
-     * @param sender The player that sends the invite
-     * @param reciever The player that recieves the invite
+     *
+     * @param sender         The player that sends the invite
+     * @param reciever       The player that recieves the invite
      * @param announceInvite true if the player that gets the invite needs to get a notification
      * @return The created invite
      */
@@ -137,9 +142,10 @@ public class TogetherForeverAPI {
 
     /**
      * Adds a player to a OfflineSyncRecovery
-     * @param recoveryClass The class of the OfflineSyncRecovery
+     *
+     * @param recoveryClass      The class of the OfflineSyncRecovery
      * @param iPlayerInformation The PlayerInformation that need to be stored
-     * @param compound The recovery information that needs to be stored
+     * @param compound           The recovery information that needs to be stored
      */
     public void addPlayerToOfflineRecovery(Class<? extends IOfflineSyncRecovery> recoveryClass, IPlayerInformation iPlayerInformation, NBTTagCompound compound) {
         DataManager manager = getDataManager(getWorld());
@@ -162,6 +168,7 @@ public class TogetherForeverAPI {
 
     /**
      * Gets the generic DataManager
+     *
      * @param world A world of to get the DataManager, it can be any world
      * @return the DataManager
      */
@@ -176,26 +183,29 @@ public class TogetherForeverAPI {
 
     /**
      * Gets the player entity
+     *
      * @param string The name of the player
      * @return The EntityPlayerMP, null if the player is offline
      */
     @Nullable
     public EntityPlayerMP getPlayer(String string) {
-        return FMLServerHandler.instance().getServer().getPlayerList().getPlayerByUsername(string);
+        return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUsername(string);
     }
 
     /**
      * Gets the player entity
+     *
      * @param uuid The UUID of the player
      * @return The EntityPlayerMP, null if the player is offline
      */
     @Nullable
     public EntityPlayerMP getPlayer(UUID uuid) {
-        return FMLServerHandler.instance().getServer().getPlayerList().getPlayerByUUID(uuid);
+        return FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUUID(uuid);
     }
 
     /**
      * Gets the open team invites
+     *
      * @return The list of team invites
      */
     public List<TeamInvite> getTeamInvites() {
@@ -204,9 +214,10 @@ public class TogetherForeverAPI {
 
     /**
      * Gets the world overworld
+     *
      * @return The overworld
      */
     public World getWorld() {
-        return FMLServerHandler.instance().getServer().getWorld(0);
+        return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
     }
 }
