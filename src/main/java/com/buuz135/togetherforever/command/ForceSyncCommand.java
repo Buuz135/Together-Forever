@@ -12,7 +12,9 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 
 public class ForceSyncCommand extends SubCommandAction {
 
@@ -29,6 +31,7 @@ public class ForceSyncCommand extends SubCommandAction {
                 for (IPlayerInformation playerInformation : togetherTeam.getPlayers()) {
                     EntityPlayerMP playerMP = playerInformation.getPlayer();
                     if (playerMP != null) {
+                        sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Trying to sync data from " + playerMP.getName() + " please don't hurt yourself in the process!"));
                         for (ISyncAction action : TogetherRegistries.getSyncActions()) {
                             action.syncJoinPlayer(DefaultPlayerInformation.createInformation(senderPlayer), playerInformation);
                         }

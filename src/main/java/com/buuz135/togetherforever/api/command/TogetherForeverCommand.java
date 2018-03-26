@@ -53,7 +53,8 @@ public class TogetherForeverCommand extends CommandBase {
             for (SubCommandAction action : subCommandActions) {
                 if (action.getSubCommandName().equalsIgnoreCase(args[0])) {
                     if (!action.execute(server, sender, args)) {
-                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "Usage: /tf " + action.getSubCommandName() + " " + action.getUsage()));
+                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "Usage: /tf " + action.getSubCommandName() + " " + action.getUsage() + " - " + action.getInfo()));
+                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "Use '/tf help' for more information!"));
                     }
                     return;
                 }

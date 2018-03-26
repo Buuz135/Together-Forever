@@ -1,3 +1,6 @@
+# 1.0.5
++ Added even more descriptive commands
+
 # 1.0.4
 + Added Reskillable Level team sync (Currently disabled)
 + Added /tf help
