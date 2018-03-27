@@ -8,8 +8,10 @@ import com.buuz135.togetherforever.api.annotation.SyncAction;
 import com.buuz135.togetherforever.config.TogetherForeverConfig;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import net.darkhax.gamestages.GameStages;
 import net.darkhax.gamestages.capabilities.PlayerDataHandler;
 import net.darkhax.gamestages.event.GameStageEvent;
+import net.darkhax.gamestages.packet.PacketStage;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextComponentString;
@@ -66,6 +68,7 @@ public class GameStagesEventSyncAction extends EventSyncAction<GameStageEvent.Ad
     private void unlockPlayerStage(EntityPlayerMP playerMP, String stage) {
         if (!PlayerDataHandler.getStageData(playerMP).hasUnlockedStage(stage)) {
             PlayerDataHandler.getStageData(playerMP).unlockStage(stage);
+            GameStages.NETWORK.sendTo(new PacketStage(stage, true), playerMP);
             playerMP.sendMessage(new TextComponentString("You unlocked stage " + stage + "!"));
         }
     }

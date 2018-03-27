@@ -40,6 +40,7 @@ public abstract class EventSyncAction<T extends PlayerEvent, S extends IOfflineS
     @SubscribeEvent
     public void onEvent(T event) {
         if (!event.getClass().equals(eventClass)) return;
+        if (TogetherForeverAPI.getInstance().getWorld() == null) return;
         ITogetherTeam team = TogetherForeverAPI.getInstance().getPlayerTeam(event.getEntityPlayer().getUniqueID());
         if (team != null) {
             List<IPlayerInformation> playerLeft = triggerSync(event, team);

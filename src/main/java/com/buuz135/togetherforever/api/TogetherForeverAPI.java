@@ -45,7 +45,9 @@ public class TogetherForeverAPI {
      * @return The list of teams
      */
     public List<ITogetherTeam> getTeams() {
-        return getDataManager(getWorld()).getTeams();
+        World world = getWorld();
+        if (world == null) return new ArrayList<>();
+        return getDataManager(world).getTeams();
     }
 
     /**
@@ -55,6 +57,7 @@ public class TogetherForeverAPI {
      */
     public void addTeam(ITogetherTeam togetherTeam) {
         DataManager dataManager = getDataManager(getWorld());
+        if (dataManager == null) return;
         TeamEvent.Create create = new TeamEvent.Create(togetherTeam);
         MinecraftForge.EVENT_BUS.post(create);
         if (!create.isCanceled()) {
@@ -71,6 +74,7 @@ public class TogetherForeverAPI {
      */
     public void addPlayerToTeam(ITogetherTeam team, IPlayerInformation playerInformation) {
         DataManager manager = getDataManager(getWorld());
+        if (manager == null) return;
         for (ITogetherTeam togetherTeam : manager.getTeams()) {
             if (togetherTeam.getOwner().equals(team.getOwner()) && togetherTeam.getTeamName().equalsIgnoreCase(team.getTeamName())) {
                 TeamEvent.PlayerAdd playerAdd = new TeamEvent.PlayerAdd(togetherTeam, playerInformation);
@@ -91,6 +95,7 @@ public class TogetherForeverAPI {
      */
     public void removePlayerFromTeam(ITogetherTeam team, IPlayerInformation playerInformation) {
         DataManager manager = getDataManager(getWorld());
+        if (manager == null) return;
         for (ITogetherTeam togetherTeam : manager.getTeams()) {
             if (togetherTeam.getOwner().equals(team.getOwner()) && togetherTeam.getTeamName().equalsIgnoreCase(team.getTeamName())) {
                 TeamEvent.RemovePlayer removePlayer = new TeamEvent.RemovePlayer(togetherTeam, playerInformation);
@@ -149,6 +154,7 @@ public class TogetherForeverAPI {
      */
     public void addPlayerToOfflineRecovery(Class<? extends IOfflineSyncRecovery> recoveryClass, IPlayerInformation iPlayerInformation, NBTTagCompound compound) {
         DataManager manager = getDataManager(getWorld());
+        if (manager == null) return;
         for (IOfflineSyncRecovery recovery : manager.getRecoveries()) {
             if (recovery.getClass().equals(recoveryClass)) {
                 recovery.storeMissingPlayer(iPlayerInformation, compound);
@@ -173,6 +179,7 @@ public class TogetherForeverAPI {
      * @return the DataManager
      */
     public DataManager getDataManager(World world) {
+        if (world == null) return null;
         DataManager dataManager = (DataManager) world.getMapStorage().getOrLoadData(DataManager.class, DataManager.NAME);
         if (dataManager == null) {
             dataManager = new DataManager();
@@ -218,6 +225,7 @@ public class TogetherForeverAPI {
      * @return The overworld
      */
     public World getWorld() {
+        if (FMLCommonHandler.instance().getMinecraftServerInstance() == null) return null;
         return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
     }
 }
