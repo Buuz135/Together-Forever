@@ -1,3 +1,9 @@
+# 1.0.7
++ Added a safe check for in case the overworld is not loaded
+
+# 1.0.6
++ Forced GameStages sync packet when the stage is not added with "gamestage add" command
+
 # 1.0.5
 + Added even more descriptive commands
 + Made it work in non real servers (LAN)

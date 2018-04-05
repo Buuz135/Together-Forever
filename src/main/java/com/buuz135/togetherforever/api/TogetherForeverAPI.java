@@ -11,6 +11,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -225,7 +226,8 @@ public class TogetherForeverAPI {
      * @return The overworld
      */
     public World getWorld() {
-        if (FMLCommonHandler.instance().getMinecraftServerInstance() == null) return null;
+        if (DimensionManager.getWorld(0) == null || FMLCommonHandler.instance().getMinecraftServerInstance() == null)
+            return null;
         return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(0);
     }
 }
