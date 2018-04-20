@@ -1,5 +1,6 @@
 package com.buuz135.togetherforever.api.action;
 
+import com.buuz135.togetherforever.TogetherForever;
 import com.buuz135.togetherforever.api.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
@@ -37,15 +38,22 @@ public abstract class EventSyncAction<T extends PlayerEvent, S extends IOfflineS
      *
      * @param event The event with same class as T
      */
-    @SubscribeEvent
+    @SubscribeEvent(receiveCanceled = true)
     public void onEvent(T event) {
         if (!event.getClass().equals(eventClass)) return;
+        TogetherForever.LOGGER.warn("Triggering event class: " + event.getClass().toString());
         if (TogetherForeverAPI.getInstance().getWorld() == null) return;
+        TogetherForever.LOGGER.warn("World is not null");
         ITogetherTeam team = TogetherForeverAPI.getInstance().getPlayerTeam(event.getEntityPlayer().getUniqueID());
         if (team != null) {
+            TogetherForever.LOGGER.warn("Found team: " + team.getTeamName() + ". Contains this players:");
+            team.getPlayers().forEach(iPlayerInformation -> TogetherForever.LOGGER.warn(iPlayerInformation.getUUID().toString() + ":" + iPlayerInformation.getName()));
+            TogetherForever.LOGGER.warn("Starting to trigger sync");
             List<IPlayerInformation> playerLeft = triggerSync(event, team);
+            TogetherForever.LOGGER.warn("Sync triggered with " + playerLeft.size() + " players not being synced:");
             NBTTagCompound compound = transformEventToNBT(event);
             for (IPlayerInformation information : playerLeft) {
+                TogetherForever.LOGGER.warn(information.getUUID().toString() + ":" + information.getName());
                 TogetherForeverAPI.getInstance().addPlayerToOfflineRecovery(recovery, information, compound);
             }
         }
