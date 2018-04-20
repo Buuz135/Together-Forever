@@ -1,5 +1,6 @@
 package com.buuz135.togetherforever.action.recovery;
 
+import com.buuz135.togetherforever.action.GameStagesEventSyncAction;
 import com.buuz135.togetherforever.api.IOfflineSyncRecovery;
 import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.api.data.TogetherRegistries;
@@ -7,7 +8,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import net.darkhax.gamestages.capabilities.PlayerDataHandler;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.TextComponentString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +40,7 @@ public class GameStageOfflineRecovery implements IOfflineSyncRecovery {
             if (entry.getKey().getUUID().equals(playerInformation.getUUID())) {
                 String stage = entry.getValue().getString("Stage");
                 if (playerInformation.getPlayer() != null && !PlayerDataHandler.getStageData(playerInformation.getPlayer()).hasUnlockedStage(stage)) {
-                    PlayerDataHandler.getStageData(playerInformation.getPlayer()).unlockStage(stage);
-                    playerInformation.getPlayer().sendMessage(new TextComponentString("You unlocked stage " + stage + "!"));
+                    GameStagesEventSyncAction.unlockPlayerStage(playerInformation.getPlayer(), stage);
                 }
                 removeList.add(entry);
             }
