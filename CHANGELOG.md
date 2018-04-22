@@ -1,6 +1,7 @@
 # 1.0.8
 + Added some deep debug for when stuff goes wrong
 + Added a workaround to some mods not having a proper API
++ Added sync actions for Reskillable Level Sync and Unlockable Sync
 
 # 1.0.7
 + Added a safe check for in case the overworld is not loaded

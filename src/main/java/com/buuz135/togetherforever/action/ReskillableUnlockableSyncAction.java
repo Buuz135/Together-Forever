@@ -3,9 +3,10 @@ package com.buuz135.togetherforever.action;
 import codersafterdark.reskillable.api.ReskillableRegistries;
 import codersafterdark.reskillable.api.data.PlayerData;
 import codersafterdark.reskillable.api.data.PlayerDataHandler;
-import codersafterdark.reskillable.api.event.LevelUpEvent;
+import codersafterdark.reskillable.api.event.UnlockUnlockableEvent;
 import codersafterdark.reskillable.api.skill.Skill;
-import com.buuz135.togetherforever.action.recovery.ReskillableLevelUpOfflineRecovery;
+import codersafterdark.reskillable.api.unlockable.Unlockable;
+import com.buuz135.togetherforever.action.recovery.ReskillableUnlockableOfflineRecovery;
 import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.api.ITogetherTeam;
 import com.buuz135.togetherforever.api.action.EventSyncAction;
@@ -17,34 +18,34 @@ import net.minecraft.nbt.NBTTagCompound;
 import java.util.ArrayList;
 import java.util.List;
 
-@SyncAction(id = "reskillable_level_up_event_sync", dependencies = {"reskillable"})
-public class ReskillableLevelUpEventSyncAction extends EventSyncAction<LevelUpEvent.Post, ReskillableLevelUpOfflineRecovery> {
+@SyncAction(id = "reskillable_unlockable_event_sync", dependencies = {"reskillable"})
+public class ReskillableUnlockableSyncAction extends EventSyncAction<UnlockUnlockableEvent.Post, ReskillableUnlockableOfflineRecovery> {
 
-    public ReskillableLevelUpEventSyncAction() {
-        super(LevelUpEvent.Post.class, ReskillableLevelUpOfflineRecovery.class);
+    public ReskillableUnlockableSyncAction() {
+        super(UnlockUnlockableEvent.Post.class, ReskillableUnlockableOfflineRecovery.class);
     }
 
     @Override
-    public NBTTagCompound transformEventToNBT(LevelUpEvent.Post event) {
+    public NBTTagCompound transformEventToNBT(UnlockUnlockableEvent.Post event) {
         NBTTagCompound tagCompound = new NBTTagCompound();
-        tagCompound.setString("Skill", event.getSkill().getRegistryName().toString());
+        tagCompound.setString("Unlock", event.getUnlockable().getRegistryName().toString());
         return tagCompound;
     }
 
     @Override
-    public List<IPlayerInformation> triggerSync(LevelUpEvent.Post object, ITogetherTeam togetherTeam) {
+    public List<IPlayerInformation> triggerSync(UnlockUnlockableEvent.Post object, ITogetherTeam togetherTeam) {
         List<IPlayerInformation> playerInformations = new ArrayList<>();
-        if (!TogetherForeverConfig.reskillableLevelUpSync) return playerInformations;
+        if (!TogetherForeverConfig.reskillableUnlockableSync) return playerInformations;
         for (IPlayerInformation information : togetherTeam.getPlayers()) {
             EntityPlayerMP playerMP = information.getPlayer();
             if (playerMP == null) playerInformations.add(information);
             else {
                 if (playerMP.getUniqueID().equals(object.getEntityPlayer().getUniqueID())) continue;
                 PlayerData data = PlayerDataHandler.get(playerMP);
-                while (data.getSkillInfo(object.getSkill()).getLevel() < object.getLevel()) {
-                    data.getSkillInfo(object.getSkill()).levelUp();
+                if (!data.getSkillInfo(object.getUnlockable().getParentSkill()).isUnlocked(object.getUnlockable())) {
+                    data.getSkillInfo(object.getUnlockable().getParentSkill()).unlock(object.getUnlockable(), playerMP);
+                    data.saveAndSync();
                 }
-                data.saveAndSync();
             }
         }
         return playerInformations;
@@ -56,8 +57,10 @@ public class ReskillableLevelUpEventSyncAction extends EventSyncAction<LevelUpEv
             PlayerData origin = PlayerDataHandler.get(teamMember.getPlayer());
             PlayerData sync = PlayerDataHandler.get(toBeSynced.getPlayer());
             for (Skill skill : ReskillableRegistries.SKILLS.getValuesCollection()) {
-                while (sync.getSkillInfo(skill).getLevel() < origin.getSkillInfo(skill).getLevel()) {
-                    sync.getSkillInfo(skill).levelUp();
+                for (Unlockable unlockable : skill.getUnlockables()) {
+                    if (origin.getSkillInfo(skill).isUnlocked(unlockable)) {
+                        sync.getSkillInfo(skill).unlock(unlockable, toBeSynced.getPlayer());
+                    }
                 }
             }
             sync.saveAndSync();

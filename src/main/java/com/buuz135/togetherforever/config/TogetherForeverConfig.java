@@ -19,6 +19,9 @@ public class TogetherForeverConfig {
     @Config.Comment("If enabled, players in the same team will sync the levels from Reskillable")
     public static boolean reskillableLevelUpSync = true;
 
+    @Config.Comment("If enabled, players in the same team will sync the unlockables from Reskillable")
+    public static boolean reskillableUnlockableSync = true;
+
     @Config.Comment("Amount of seconds the syncing will be delayed on world join")
     @Config.RangeInt(min = 0)
     public static int syncDataSecondsDelay = 20;
