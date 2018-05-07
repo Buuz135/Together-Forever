@@ -1,3 +1,6 @@
+# 1.0.9
++ Updated Gamestages support to version 2.0
+
 # 1.0.8
 + Added some deep debug for when stuff goes wrong
 + Added a workaround to some mods not having a proper API

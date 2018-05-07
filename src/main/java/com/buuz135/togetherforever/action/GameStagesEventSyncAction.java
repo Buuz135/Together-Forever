@@ -8,13 +8,12 @@ import com.buuz135.togetherforever.api.annotation.SyncAction;
 import com.buuz135.togetherforever.config.TogetherForeverConfig;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import net.darkhax.gamestages.capabilities.PlayerDataHandler;
+import net.darkhax.gamestages.GameStageHelper;
 import net.darkhax.gamestages.event.GameStageEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -40,6 +39,15 @@ public class GameStagesEventSyncAction extends EventSyncAction<GameStageEvent.Ad
         return compound;
     }
 
+    public static void unlockPlayerStage(EntityPlayerMP playerMP, String stage) {
+        if (!GameStageHelper.hasStage(playerMP, stage)) {
+            MinecraftServer server = playerMP.getServer();
+            if (server != null) {
+                GameStageHelper.addStage(playerMP, stage);
+            }
+        }
+    }
+
     @Override
     public List<IPlayerInformation> triggerSync(GameStageEvent.Add object, ITogetherTeam togetherTeam) {
         List<IPlayerInformation> playerInformations = new ArrayList<>();
@@ -48,7 +56,7 @@ public class GameStagesEventSyncAction extends EventSyncAction<GameStageEvent.Ad
             EntityPlayerMP playerMP = information.getPlayer();
             if (playerMP == null) playerInformations.add(information);
             else {
-                if (!PlayerDataHandler.getStageData(playerMP).hasUnlockedStage(object.getStageName()) && !stageUnlocks.containsEntry(playerMP, object.getStageName()))
+                if (!GameStageHelper.hasStage(playerMP, object.getStageName()) && !stageUnlocks.containsEntry(playerMP, object.getStageName()))
                     stageUnlocks.put(playerMP, object.getStageName());
             }
         }
@@ -58,17 +66,8 @@ public class GameStagesEventSyncAction extends EventSyncAction<GameStageEvent.Ad
     @Override
     public void syncJoinPlayer(IPlayerInformation toBeSynced, IPlayerInformation teamMember) {
         if (teamMember.getPlayer() != null && toBeSynced.getPlayer() != null) {
-            for (String s : PlayerDataHandler.getStageData(teamMember.getPlayer()).getUnlockedStages()) {
+            for (String s : GameStageHelper.getPlayerData(teamMember.getPlayer()).getStages()) {
                 unlockPlayerStage(toBeSynced.getPlayer(), s);
-            }
-        }
-    }
-
-    public static void unlockPlayerStage(EntityPlayerMP playerMP, String stage) {
-        if (!PlayerDataHandler.getStageData(playerMP).hasUnlockedStage(stage)) {
-            MinecraftServer server = playerMP.getServer();
-            if (server != null) {
-                FMLCommonHandler.instance().getMinecraftServerInstance().commandManager.executeCommand(server, "gamestage add " + playerMP.getName() + " " + stage);
             }
         }
     }
