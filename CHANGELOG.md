@@ -1,6 +1,7 @@
 # 1.0.10
 + Update Reskillable Integration (pupnewfster)
 + Fixed GameStages dependency
++ Updated forge to 1.12.2-14.23.4.2703
 
 # 1.0.9
 + Updated Gamestages support to version 2.0
