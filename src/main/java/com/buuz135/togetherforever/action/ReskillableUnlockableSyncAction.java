@@ -3,7 +3,10 @@ package com.buuz135.togetherforever.action;
 import codersafterdark.reskillable.api.ReskillableRegistries;
 import codersafterdark.reskillable.api.data.PlayerData;
 import codersafterdark.reskillable.api.data.PlayerDataHandler;
+import codersafterdark.reskillable.api.data.PlayerSkillInfo;
 import codersafterdark.reskillable.api.event.UnlockUnlockableEvent;
+import codersafterdark.reskillable.api.requirement.RequirementCache;
+import codersafterdark.reskillable.api.requirement.TraitRequirement;
 import codersafterdark.reskillable.api.skill.Skill;
 import codersafterdark.reskillable.api.unlockable.Unlockable;
 import com.buuz135.togetherforever.action.recovery.ReskillableUnlockableOfflineRecovery;
@@ -45,6 +48,7 @@ public class ReskillableUnlockableSyncAction extends EventSyncAction<UnlockUnloc
                 if (!data.getSkillInfo(object.getUnlockable().getParentSkill()).isUnlocked(object.getUnlockable())) {
                     data.getSkillInfo(object.getUnlockable().getParentSkill()).unlock(object.getUnlockable(), playerMP);
                     data.saveAndSync();
+                    RequirementCache.invalidateCache(information.getUUID(), TraitRequirement.class);
                 }
             }
         }
@@ -56,14 +60,21 @@ public class ReskillableUnlockableSyncAction extends EventSyncAction<UnlockUnloc
         if (toBeSynced.getPlayer() != null && teamMember.getPlayer() != null) {
             PlayerData origin = PlayerDataHandler.get(teamMember.getPlayer());
             PlayerData sync = PlayerDataHandler.get(toBeSynced.getPlayer());
+            boolean changed = false;
             for (Skill skill : ReskillableRegistries.SKILLS.getValuesCollection()) {
+                PlayerSkillInfo originSkillInfo = origin.getSkillInfo(skill);
+                PlayerSkillInfo syncSkillInfo = sync.getSkillInfo(skill);
                 for (Unlockable unlockable : skill.getUnlockables()) {
-                    if (origin.getSkillInfo(skill).isUnlocked(unlockable)) {
-                        sync.getSkillInfo(skill).unlock(unlockable, toBeSynced.getPlayer());
+                    if (originSkillInfo.isUnlocked(unlockable) && !syncSkillInfo.isUnlocked(unlockable)) {
+                        syncSkillInfo.unlock(unlockable, toBeSynced.getPlayer());
+                        changed = true;
                     }
                 }
             }
             sync.saveAndSync();
+            if (changed) {
+                RequirementCache.invalidateCache(toBeSynced.getUUID(), TraitRequirement.class);
+            }
             origin.saveAndSync();
         }
     }
