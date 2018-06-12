@@ -3,6 +3,8 @@ package com.buuz135.togetherforever.action.recovery;
 import codersafterdark.reskillable.api.ReskillableRegistries;
 import codersafterdark.reskillable.api.data.PlayerData;
 import codersafterdark.reskillable.api.data.PlayerDataHandler;
+import codersafterdark.reskillable.api.requirement.RequirementCache;
+import codersafterdark.reskillable.api.requirement.TraitRequirement;
 import codersafterdark.reskillable.api.unlockable.Unlockable;
 import com.buuz135.togetherforever.api.IOfflineSyncRecovery;
 import com.buuz135.togetherforever.api.IPlayerInformation;
@@ -48,6 +50,7 @@ public class ReskillableUnlockableOfflineRecovery implements IOfflineSyncRecover
                     if (data != null && !data.getSkillInfo(unlockable.getParentSkill()).isUnlocked(unlockable)) {
                         data.getSkillInfo(unlockable.getParentSkill()).unlock(unlockable, playerInformation.getPlayer());
                         data.saveAndSync();
+                        RequirementCache.invalidateCache(playerInformation.getUUID(), TraitRequirement.class);
                     }
                 }
                 removeList.add(entry);

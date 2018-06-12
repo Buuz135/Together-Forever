@@ -38,7 +38,7 @@ import java.util.List;
         modid = TogetherForever.MOD_ID,
         name = TogetherForever.MOD_NAME,
         version = TogetherForever.VERSION,
-        dependencies = "required:forge@[14.23.1.2560,);after:gamestages@[1.0.76,);"
+        dependencies = "required:forge@[14.23.1.2560,);after:gamestages@[1.0.76,);after:reskillable@[1.7.0,);"
 )
 public class TogetherForever {
 

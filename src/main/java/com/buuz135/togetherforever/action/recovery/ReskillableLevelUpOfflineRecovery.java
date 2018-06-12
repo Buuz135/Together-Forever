@@ -3,6 +3,8 @@ package com.buuz135.togetherforever.action.recovery;
 import codersafterdark.reskillable.api.ReskillableRegistries;
 import codersafterdark.reskillable.api.data.PlayerData;
 import codersafterdark.reskillable.api.data.PlayerDataHandler;
+import codersafterdark.reskillable.api.requirement.RequirementCache;
+import codersafterdark.reskillable.api.requirement.SkillRequirement;
 import codersafterdark.reskillable.api.skill.Skill;
 import com.buuz135.togetherforever.api.IOfflineSyncRecovery;
 import com.buuz135.togetherforever.api.IPlayerInformation;
@@ -47,6 +49,7 @@ public class ReskillableLevelUpOfflineRecovery implements IOfflineSyncRecovery {
                     PlayerData data = PlayerDataHandler.get(playerInformation.getPlayer());
                     data.getSkillInfo(skill).levelUp();
                     data.saveAndSync();
+                    RequirementCache.invalidateCache(playerInformation.getUUID(), SkillRequirement.class);
                 }
                 removeList.add(entry);
             }
