@@ -1,3 +1,7 @@
+# 1.0.10
++ Update Reskillable Integration (pupnewfster)
++ Fixed GameStages dependency
+
 # 1.0.9
 + Updated Gamestages support to version 2.0
 
