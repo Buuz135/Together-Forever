@@ -19,7 +19,7 @@ public class HelpCommand extends SubCommandAction {
             sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Together Forever Commands: "));
             for (SubCommandAction action : TogetherForeverCommand.command.getSubCommandActions()) {
                 if (!action.getSubCommandName().equals(this.getSubCommandName()))
-                    sender.sendMessage(new TextComponentString(TextFormatting.BLUE + " /tf " + action.getSubCommandName() + " " + getUsage() + TextFormatting.GRAY + "- " + TextFormatting.AQUA + action.getInfo()));
+                    sender.sendMessage(new TextComponentString(TextFormatting.BLUE + " /tf " + action.getSubCommandName() + ' ' + getUsage() + TextFormatting.GRAY + "- " + TextFormatting.AQUA + action.getInfo()));
             }
         }
         return true;

@@ -130,9 +130,9 @@ public class TogetherForever {
     }
 
     private void registerSyncActions(ASMDataTable data) throws IllegalAccessException, InstantiationException {
-        for (Class aClass : AnnotationHelper.getAnnotatedClasses(data, SyncAction.class)) {
+        for (Class<?> aClass : AnnotationHelper.getAnnotatedClasses(data, SyncAction.class)) {
             if (ISyncAction.class.isAssignableFrom(aClass)) {
-                SyncAction syncAction = (SyncAction) aClass.getAnnotation(SyncAction.class);
+                SyncAction syncAction = aClass.getAnnotation(SyncAction.class);
                 if (syncAction.dependencies().length == 0 || areDependenciesLoaded(syncAction.dependencies())) {
                     Object object = aClass.newInstance();
                     TogetherRegistries.registerSyncAction(syncAction.id(), (ISyncAction) object);

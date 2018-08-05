@@ -63,7 +63,7 @@ public class AdvancementOfflineRecovery implements IOfflineSyncRecovery {
             recovery.setString("PlayerID", TogetherRegistries.getPlayerInformationID(playerInformation.getClass()));
             int id = 0;
             for (NBTTagCompound compound : offlineRecoveries.get(playerInformation)) {
-                recovery.setTag(id + "", compound);
+                recovery.setTag(Integer.toString(id), compound);
                 ++id;
             }
             tagCompound.setTag(uuid, recovery);
@@ -76,10 +76,10 @@ public class AdvancementOfflineRecovery implements IOfflineSyncRecovery {
         offlineRecoveries.clear();
         for (String uuid : compound.getKeySet()) {
             NBTTagCompound recovery = compound.getCompoundTag(uuid);
-            Class plClass = TogetherRegistries.getPlayerInformationClass(recovery.getString("PlayerID"));
+            Class<? extends IPlayerInformation> plClass = TogetherRegistries.getPlayerInformationClass(recovery.getString("PlayerID"));
             if (plClass != null) {
                 try {
-                    IPlayerInformation info = (IPlayerInformation) plClass.newInstance();
+                    IPlayerInformation info = plClass.newInstance();
                     info.readFromNBT(recovery.getCompoundTag("ID"));
                     for (String id : recovery.getKeySet()) {
                         if (!id.equalsIgnoreCase("ID") && !id.equalsIgnoreCase("PlayerID")) {

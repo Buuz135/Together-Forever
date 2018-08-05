@@ -51,10 +51,10 @@ public class TeamInfoCommand extends SubCommandAction {
 
     private String getFormatedName(IPlayerInformation playerInformation, boolean online, boolean owner, boolean yourself) {
         StringBuilder builder = new StringBuilder(" - ");
-        if (yourself) builder.append(TextFormatting.GOLD + "[");
-        builder.append((online ? TextFormatting.GREEN : TextFormatting.RED) + playerInformation.getName());
-        if (yourself) builder.append(TextFormatting.GOLD + "]");
-        if (owner) builder.append(TextFormatting.DARK_RED + "*");
+        if (yourself) builder.append(TextFormatting.GOLD).append('[');
+        builder.append(online ? TextFormatting.GREEN : TextFormatting.RED).append(playerInformation.getName());
+        if (yourself) builder.append(TextFormatting.GOLD).append(']');
+        if (owner) builder.append(TextFormatting.DARK_RED).append('*');
         return builder.toString();
     }
 }

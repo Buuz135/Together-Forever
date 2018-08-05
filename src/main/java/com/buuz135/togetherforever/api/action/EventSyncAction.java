@@ -47,13 +47,13 @@ public abstract class EventSyncAction<T extends PlayerEvent, S extends IOfflineS
         ITogetherTeam team = TogetherForeverAPI.getInstance().getPlayerTeam(event.getEntityPlayer().getUniqueID());
         if (team != null) {
             TogetherForever.LOGGER.warn("Found team: " + team.getTeamName() + ". Contains this players:");
-            team.getPlayers().forEach(iPlayerInformation -> TogetherForever.LOGGER.warn(iPlayerInformation.getUUID().toString() + ":" + iPlayerInformation.getName()));
+            team.getPlayers().forEach(iPlayerInformation -> TogetherForever.LOGGER.warn(iPlayerInformation.getUUID().toString() + ':' + iPlayerInformation.getName()));
             TogetherForever.LOGGER.warn("Starting to trigger sync");
             List<IPlayerInformation> playerLeft = triggerSync(event, team);
             TogetherForever.LOGGER.warn("Sync triggered with " + playerLeft.size() + " players not being synced:");
             NBTTagCompound compound = transformEventToNBT(event);
             for (IPlayerInformation information : playerLeft) {
-                TogetherForever.LOGGER.warn(information.getUUID().toString() + ":" + information.getName());
+                TogetherForever.LOGGER.warn(information.getUUID().toString() + ':' + information.getName());
                 TogetherForeverAPI.getInstance().addPlayerToOfflineRecovery(recovery, information, compound);
             }
         }
@@ -70,7 +70,7 @@ public abstract class EventSyncAction<T extends PlayerEvent, S extends IOfflineS
     }
 
     /**
-     * Transforms an event into a NBTTagCompound so it can be stored in the world for the IOfflineSyncRecovey
+     * Transforms an event into a NBTTagCompound so it can be stored in the world for the IOfflineSyncRecovery
      *
      * @param event The event to transform
      * @return The transformed NBTTagCompound of the Event

@@ -24,15 +24,15 @@ public class DeclineInviteCommand extends SubCommandAction {
     public boolean execute(MinecraftServer server, ICommandSender sender, String[] args) {
         if (args.length > 1) {
             try {
-                EntityPlayerMP inviteReciever = CommandBase.getCommandSenderAsPlayer(sender);
+                EntityPlayerMP inviteReceiver = CommandBase.getCommandSenderAsPlayer(sender);
                 EntityPlayerMP inviteSender = TogetherForeverAPI.getInstance().getPlayer(args[1]);
-                if (inviteSender != null && inviteReciever != inviteSender) {
-                    IPlayerInformation infoReciever = DefaultPlayerInformation.createInformation(inviteReciever);
+                if (inviteSender != null && inviteReceiver != inviteSender) {
+                    IPlayerInformation infoReceiver = DefaultPlayerInformation.createInformation(inviteReceiver);
                     IPlayerInformation infoSender = DefaultPlayerInformation.createInformation(inviteSender);
                     for (TeamInvite invite : TogetherForeverAPI.getInstance().getTeamInvites()) {
-                        if (invite.getSender().equals(infoSender) && invite.getReciever().equals(infoReciever)) {
-                            inviteReciever.sendMessage(new TextComponentString(TextFormatting.RED + "You have declined the invite."));
-                            inviteSender.sendMessage(new TextComponentString(TextFormatting.RED + inviteReciever.getName() + " has declined the invite!"));
+                        if (invite.getSender().equals(infoSender) && invite.getReciever().equals(infoReceiver)) {
+                            inviteReceiver.sendMessage(new TextComponentString(TextFormatting.RED + "You have declined the invite."));
+                            inviteSender.sendMessage(new TextComponentString(TextFormatting.RED + inviteReceiver.getName() + " has declined the invite!"));
                             TogetherForeverAPI.getInstance().getTeamInvites().remove(invite);
                             return true;
                         }

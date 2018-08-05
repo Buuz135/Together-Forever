@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class AnnotationHelper {
 
-    public static List<Class> getAnnotatedClasses(ASMDataTable data, Class<? extends Annotation> annotationClass) {
+    public static List<Class<?>> getAnnotatedClasses(ASMDataTable data, Class<? extends Annotation> annotationClass) {
         return data.getAll(annotationClass.getCanonicalName()).stream().map(data1 -> {
             try {
                 return Class.forName(data1.getClassName());

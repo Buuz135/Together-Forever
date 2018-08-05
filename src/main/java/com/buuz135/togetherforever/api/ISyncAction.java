@@ -8,7 +8,7 @@ import java.util.List;
  * @param <T> The Object type that the action is based on
  * @param <S> The IOfflineRecovery for the ISyncAction
  */
-public interface ISyncAction<T extends Object, S extends IOfflineSyncRecovery> {
+public interface ISyncAction<T, S extends IOfflineSyncRecovery> {
 
     /**
      * Triggers a sync of the action returning a list of PlayersInformation the were offline for the sync
