@@ -135,7 +135,7 @@ public class TogetherForever {
                 SyncAction syncAction = aClass.getAnnotation(SyncAction.class);
                 if (syncAction.dependencies().length == 0 || areDependenciesLoaded(syncAction.dependencies())) {
                     Object object = aClass.newInstance();
-                    TogetherRegistries.registerSyncAction(syncAction.id(), (ISyncAction) object);
+                    TogetherRegistries.registerSyncAction(syncAction.id(), (ISyncAction<?, ? extends IOfflineSyncRecovery>) object);
                 }
             }
         }

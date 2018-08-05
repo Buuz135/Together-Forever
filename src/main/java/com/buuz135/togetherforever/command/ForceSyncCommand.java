@@ -1,9 +1,6 @@
 package com.buuz135.togetherforever.command;
 
-import com.buuz135.togetherforever.api.IPlayerInformation;
-import com.buuz135.togetherforever.api.ISyncAction;
-import com.buuz135.togetherforever.api.ITogetherTeam;
-import com.buuz135.togetherforever.api.TogetherForeverAPI;
+import com.buuz135.togetherforever.api.*;
 import com.buuz135.togetherforever.api.command.SubCommandAction;
 import com.buuz135.togetherforever.api.data.DefaultPlayerInformation;
 import com.buuz135.togetherforever.api.data.TogetherRegistries;
@@ -32,7 +29,7 @@ public class ForceSyncCommand extends SubCommandAction {
                     EntityPlayerMP playerMP = playerInformation.getPlayer();
                     if (playerMP != null && !senderPlayer.getUniqueID().equals(playerMP.getUniqueID())) {
                         sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Trying to sync data from " + playerMP.getName() + " please don't hurt yourself in the process!"));
-                        for (ISyncAction action : TogetherRegistries.getSyncActions()) {
+                        for (ISyncAction<?, ? extends IOfflineSyncRecovery> action : TogetherRegistries.getSyncActions()) {
                             action.syncJoinPlayer(DefaultPlayerInformation.createInformation(senderPlayer), playerInformation);
                         }
                     }

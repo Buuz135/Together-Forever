@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class TogetherRegistries {
 
-    private static final HashMap<String, ISyncAction> SYNC_ACTION_REGISTRY = new HashMap<>();
+    private static final HashMap<String, ISyncAction<?, ? extends IOfflineSyncRecovery>> SYNC_ACTION_REGISTRY = new HashMap<>();
     private static final HashMap<String, Class<? extends ITogetherTeam>> TEAM_REGISTRY = new HashMap<>();
     private static final HashMap<String, Class<? extends IPlayerInformation>> PLAYER_REGISTRY = new HashMap<>();
 
@@ -22,7 +22,7 @@ public class TogetherRegistries {
      * @param id     The ID of the sync action
      * @param action The ISyncAction to be registered
      */
-    public static void registerSyncAction(String id, ISyncAction action) {
+    public static void registerSyncAction(String id, ISyncAction<?, ? extends IOfflineSyncRecovery> action) {
         TogetherForever.LOGGER.info("Registering SyncAction with id " + id + " and class " + action.getClass().getName());
         SYNC_ACTION_REGISTRY.put(id, action);
     }
@@ -46,7 +46,7 @@ public class TogetherRegistries {
      * @param id The id of the SyncAction
      * @return the SyncAction, null if it doesn't exist
      */
-    public static ISyncAction getSyncActionFromID(String id) {
+    public static ISyncAction<?, ? extends IOfflineSyncRecovery> getSyncActionFromID(String id) {
         if (SYNC_ACTION_REGISTRY.containsKey(id)) {
             return SYNC_ACTION_REGISTRY.get(id);
         }
@@ -127,7 +127,7 @@ public class TogetherRegistries {
         return null;
     }
 
-    public static Collection<ISyncAction> getSyncActions() {
+    public static Collection<ISyncAction<?, ? extends IOfflineSyncRecovery>> getSyncActions() {
         return SYNC_ACTION_REGISTRY.values();
     }
 }

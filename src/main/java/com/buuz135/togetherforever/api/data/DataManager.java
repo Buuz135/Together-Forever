@@ -53,10 +53,10 @@ public class DataManager extends WorldSavedData {
         //OFFLINE RECOVERY READING
         NBTTagCompound offlineRecovery = nbt.getCompoundTag(RECOVERY);
         for (String key : offlineRecovery.getKeySet()) {
-            ISyncAction action = TogetherRegistries.getSyncActionFromID(key);
+            ISyncAction<?, ? extends IOfflineSyncRecovery> action = TogetherRegistries.getSyncActionFromID(key);
             if (action != null) {
                 try {
-                    IOfflineSyncRecovery recovery = (IOfflineSyncRecovery) action.getOfflineRecovery().newInstance();
+                    IOfflineSyncRecovery recovery = action.getOfflineRecovery().newInstance();
                     recovery.readFromNBT(offlineRecovery.getCompoundTag(key));
                     recoveries.add(recovery);
                 } catch (InstantiationException | IllegalAccessException e) {
