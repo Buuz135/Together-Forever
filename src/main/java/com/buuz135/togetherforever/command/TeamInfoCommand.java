@@ -30,7 +30,7 @@ public class TeamInfoCommand extends SubCommandAction {
             }
             sender.sendMessage(new TextComponentString(togetherTeam.getTeamName() + " team information:"));
             for (IPlayerInformation playerInformation : togetherTeam.getPlayers()) {
-                sender.sendMessage(new TextComponentString(getFormatedName(playerInformation, playerInformation.getPlayer() != null, playerInformation.getUUID().equals(togetherTeam.getOwner()), senderMP.getUniqueID().equals(playerInformation.getUUID()))));
+                sender.sendMessage(new TextComponentString(getFormattedName(playerInformation, playerInformation.getPlayer() != null, playerInformation.getUUID().equals(togetherTeam.getOwner()), senderMP.getUniqueID().equals(playerInformation.getUUID()))));
             }
             return true;
         } catch (PlayerNotFoundException e) {
@@ -49,7 +49,7 @@ public class TeamInfoCommand extends SubCommandAction {
         return "Gets the players of your team";
     }
 
-    private String getFormatedName(IPlayerInformation playerInformation, boolean online, boolean owner, boolean yourself) {
+    private String getFormattedName(IPlayerInformation playerInformation, boolean online, boolean owner, boolean yourself) {
         StringBuilder builder = new StringBuilder(" - ");
         if (yourself) builder.append(TextFormatting.GOLD).append('[');
         builder.append(online ? TextFormatting.GREEN : TextFormatting.RED).append(playerInformation.getName());
