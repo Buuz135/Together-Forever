@@ -31,6 +31,9 @@ public class ReskillableLevelUpEventSyncAction extends EventSyncAction<LevelUpEv
     public NBTTagCompound transformEventToNBT(LevelUpEvent.Post event) {
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound.setString("Skill", event.getSkill().getRegistryName().toString());
+        if (event.getLevel() - event.getOldLevel() > 0) {
+            tagCompound.setInteger("NewLevel", event.getLevel());
+        }
         return tagCompound;
     }
 

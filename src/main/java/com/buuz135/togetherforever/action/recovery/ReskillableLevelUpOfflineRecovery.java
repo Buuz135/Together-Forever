@@ -3,6 +3,7 @@ package com.buuz135.togetherforever.action.recovery;
 import codersafterdark.reskillable.api.ReskillableRegistries;
 import codersafterdark.reskillable.api.data.PlayerData;
 import codersafterdark.reskillable.api.data.PlayerDataHandler;
+import codersafterdark.reskillable.api.data.PlayerSkillInfo;
 import codersafterdark.reskillable.api.requirement.RequirementCache;
 import codersafterdark.reskillable.api.requirement.SkillRequirement;
 import codersafterdark.reskillable.api.skill.Skill;
@@ -24,13 +25,22 @@ public class ReskillableLevelUpOfflineRecovery extends AbstractOfflineRecovery {
         List<Map.Entry<IPlayerInformation, NBTTagCompound>> removeList = new ArrayList<>();
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : new ArrayList<>(offlineRecoveries.entries())) {
             if (entry.getKey().getUUID().equals(playerInformation.getUUID())) {
-                String skillID = entry.getValue().getString("Skill");
+                NBTTagCompound value = entry.getValue();
+                String skillID = value.getString("Skill");
                 Skill skill = ReskillableRegistries.SKILLS.getValue(new ResourceLocation(skillID));
                 if (skill != null) {
                     PlayerData data = PlayerDataHandler.get(playerInformation.getPlayer());
-                    data.getSkillInfo(skill).levelUp();
-                    data.saveAndSync();
-                    RequirementCache.invalidateCache(playerInformation.getUUID(), SkillRequirement.class);
+                    PlayerSkillInfo skillInfo = data.getSkillInfo(skill);
+                    int newLevel = value.getInteger("NewLevel");
+                    if (newLevel == 0) { //Backwards compat with old nbt storage
+                        skillInfo.levelUp();
+                        data.saveAndSync();
+                        RequirementCache.invalidateCache(playerInformation.getUUID(), SkillRequirement.class);
+                    } else if (skillInfo.getLevel() < newLevel) {
+                        skillInfo.setLevel(newLevel);
+                        data.saveAndSync();
+                        RequirementCache.invalidateCache(playerInformation.getUUID(), SkillRequirement.class);
+                    }
                 }
                 removeList.add(entry);
             }
