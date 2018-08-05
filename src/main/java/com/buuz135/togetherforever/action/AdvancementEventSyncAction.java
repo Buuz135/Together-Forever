@@ -24,7 +24,7 @@ public class AdvancementEventSyncAction extends EventSyncAction<AdvancementEvent
 
     public static void grantAllParentAchievements(EntityPlayerMP player, Advancement advancement) {
         if (advancement.getParent() != null) grantAllParentAchievements(player, advancement.getParent());
-        TogetherForever.LOGGER.warn("Advancement granting: " + advancement.getId().toString());
+        TogetherForever.LOGGER.debug("Advancement granting: " + advancement.getId().toString());
         for (String string : player.getAdvancements().getProgress(advancement).getRemaningCriteria()) {
             player.getAdvancements().grantCriterion(advancement, string);
         }
@@ -33,16 +33,16 @@ public class AdvancementEventSyncAction extends EventSyncAction<AdvancementEvent
     @Override
     public List<IPlayerInformation> triggerSync(AdvancementEvent object, ITogetherTeam togetherTeam) {
         List<IPlayerInformation> playerInformations = new ArrayList<>();
-        TogetherForever.LOGGER.warn("Starting to sync advancement " + object.getAdvancement().getId().toString());
+        TogetherForever.LOGGER.debug("Starting to sync advancement " + object.getAdvancement().getId().toString());
         if (!TogetherForeverConfig.advancementSync) return playerInformations;
         for (IPlayerInformation information : togetherTeam.getPlayers()) {
             EntityPlayerMP playerMP = information.getPlayer();
             if (playerMP == null) {
-                TogetherForever.LOGGER.warn(information.getName() + " is not online, adding it to the offline recovery!");
+                TogetherForever.LOGGER.debug(information.getName() + " is not online, adding it to the offline recovery!");
                 playerInformations.add(information);
             }
             else {
-                TogetherForever.LOGGER.warn("Trying to grant all the parent advancements to the player " + information.getName());
+                TogetherForever.LOGGER.debug("Trying to grant all the parent advancements to the player " + information.getName());
                 grantAllParentAchievements(playerMP, object.getAdvancement());
             }
         }

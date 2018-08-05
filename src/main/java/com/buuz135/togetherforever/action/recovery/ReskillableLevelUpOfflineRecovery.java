@@ -22,6 +22,8 @@ public class ReskillableLevelUpOfflineRecovery extends AbstractOfflineRecovery {
 
     @Override
     public void recoverMissingPlayer(IPlayerInformation playerInformation) {
+        PlayerData data = PlayerDataHandler.get(playerInformation.getPlayer());
+        boolean changed = false;
         List<Map.Entry<IPlayerInformation, NBTTagCompound>> removeList = new ArrayList<>();
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : new ArrayList<>(offlineRecoveries.entries())) {
             if (entry.getKey().getUUID().equals(playerInformation.getUUID())) {
@@ -29,17 +31,14 @@ public class ReskillableLevelUpOfflineRecovery extends AbstractOfflineRecovery {
                 String skillID = value.getString("Skill");
                 Skill skill = ReskillableRegistries.SKILLS.getValue(new ResourceLocation(skillID));
                 if (skill != null) {
-                    PlayerData data = PlayerDataHandler.get(playerInformation.getPlayer());
                     PlayerSkillInfo skillInfo = data.getSkillInfo(skill);
                     int newLevel = value.getInteger("NewLevel");
                     if (newLevel == 0) { //Backwards compat with old nbt storage
                         skillInfo.levelUp();
-                        data.saveAndSync();
-                        RequirementCache.invalidateCache(playerInformation.getUUID(), SkillRequirement.class);
+                        changed = true;
                     } else if (skillInfo.getLevel() < newLevel) {
                         skillInfo.setLevel(newLevel);
-                        data.saveAndSync();
-                        RequirementCache.invalidateCache(playerInformation.getUUID(), SkillRequirement.class);
+                        changed = true;
                     }
                 }
                 removeList.add(entry);
@@ -47,6 +46,10 @@ public class ReskillableLevelUpOfflineRecovery extends AbstractOfflineRecovery {
         }
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : removeList) {
             offlineRecoveries.remove(entry.getKey(), entry.getValue());
+        }
+        if (changed) {
+            data.saveAndSync();
+            RequirementCache.invalidateCache(playerInformation.getUUID(), SkillRequirement.class);
         }
     }
 }
