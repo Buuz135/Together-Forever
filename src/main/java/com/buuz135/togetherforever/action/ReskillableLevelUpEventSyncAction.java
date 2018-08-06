@@ -51,8 +51,8 @@ public class ReskillableLevelUpEventSyncAction extends EventSyncAction<LevelUpEv
                     skillInfo.setLevel(object.getLevel());
                     changed = true;
                 }
-                data.saveAndSync();
                 if (changed) {
+                    data.saveAndSync();
                     RequirementCache.invalidateCache(information.getUUID(), SkillRequirement.class);
                 }
             }
@@ -74,8 +74,8 @@ public class ReskillableLevelUpEventSyncAction extends EventSyncAction<LevelUpEv
                     changed = true;
                 }
             }
-            sync.saveAndSync();
             if (changed) {
+                sync.saveAndSync();
                 RequirementCache.invalidateCache(toBeSynced.getUUID(), SkillRequirement.class);
             }
             origin.saveAndSync();

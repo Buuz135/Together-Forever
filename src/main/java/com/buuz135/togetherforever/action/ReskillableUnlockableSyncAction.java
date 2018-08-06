@@ -45,8 +45,9 @@ public class ReskillableUnlockableSyncAction extends EventSyncAction<UnlockUnloc
             else {
                 if (playerMP.getUniqueID().equals(object.getEntityPlayer().getUniqueID())) continue;
                 PlayerData data = PlayerDataHandler.get(playerMP);
-                if (!data.getSkillInfo(object.getUnlockable().getParentSkill()).isUnlocked(object.getUnlockable())) {
-                    data.getSkillInfo(object.getUnlockable().getParentSkill()).unlock(object.getUnlockable(), playerMP);
+                PlayerSkillInfo skillInfo = data.getSkillInfo(object.getUnlockable().getParentSkill());
+                if (!skillInfo.isUnlocked(object.getUnlockable())) {
+                    skillInfo.unlock(object.getUnlockable(), playerMP);
                     data.saveAndSync();
                     RequirementCache.invalidateCache(information.getUUID(), TraitRequirement.class);
                 }
@@ -71,8 +72,8 @@ public class ReskillableUnlockableSyncAction extends EventSyncAction<UnlockUnloc
                     }
                 }
             }
-            sync.saveAndSync();
             if (changed) {
+                sync.saveAndSync();
                 RequirementCache.invalidateCache(toBeSynced.getUUID(), TraitRequirement.class);
             }
             origin.saveAndSync();
