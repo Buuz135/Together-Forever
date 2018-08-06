@@ -23,6 +23,9 @@ public class ReskillableLevelUpOfflineRecovery extends AbstractOfflineRecovery {
     @Override
     public void recoverMissingPlayer(IPlayerInformation playerInformation) {
         PlayerData data = PlayerDataHandler.get(playerInformation.getPlayer());
+        if (data == null) {
+            return;
+        }
         boolean changed = false;
         List<Map.Entry<IPlayerInformation, NBTTagCompound>> removeList = new ArrayList<>();
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : new ArrayList<>(offlineRecoveries.entries())) {
