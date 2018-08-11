@@ -7,11 +7,13 @@ import codersafterdark.reskillable.api.data.PlayerSkillInfo;
 import codersafterdark.reskillable.api.requirement.RequirementCache;
 import codersafterdark.reskillable.api.requirement.SkillRequirement;
 import codersafterdark.reskillable.api.skill.Skill;
+import codersafterdark.reskillable.api.toast.ToastHelper;
 import com.buuz135.togetherforever.api.IPlayerInformation;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +28,7 @@ public class ReskillableLevelUpOfflineRecovery extends AbstractOfflineRecovery {
         if (data == null) {
             return;
         }
-        boolean changed = false;
+        Map<Skill, Integer> levelUps = new HashMap<>();
         List<Map.Entry<IPlayerInformation, NBTTagCompound>> removeList = new ArrayList<>();
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : new ArrayList<>(offlineRecoveries.entries())) {
             if (entry.getKey().getUUID().equals(playerInformation.getUUID())) {
@@ -38,10 +40,10 @@ public class ReskillableLevelUpOfflineRecovery extends AbstractOfflineRecovery {
                     int newLevel = value.getInteger("NewLevel");
                     if (newLevel == 0) { //Backwards compat with old nbt storage
                         skillInfo.levelUp();
-                        changed = true;
+                        levelUps.put(skill, skillInfo.getLevel());
                     } else if (skillInfo.getLevel() < newLevel) {
                         skillInfo.setLevel(newLevel);
-                        changed = true;
+                        levelUps.put(skill, newLevel);
                     }
                 }
                 removeList.add(entry);
@@ -50,9 +52,10 @@ public class ReskillableLevelUpOfflineRecovery extends AbstractOfflineRecovery {
         for (Map.Entry<IPlayerInformation, NBTTagCompound> entry : removeList) {
             offlineRecoveries.remove(entry.getKey(), entry.getValue());
         }
-        if (changed) {
+        if (!levelUps.isEmpty()) {
             data.saveAndSync();
             RequirementCache.invalidateCache(playerInformation.getUUID(), SkillRequirement.class);
+            levelUps.forEach((skill, integer) -> ToastHelper.sendSkillToast(playerInformation.getPlayer(), skill, integer));
         }
     }
 }

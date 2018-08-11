@@ -8,6 +8,7 @@ import codersafterdark.reskillable.api.event.UnlockUnlockableEvent;
 import codersafterdark.reskillable.api.requirement.RequirementCache;
 import codersafterdark.reskillable.api.requirement.TraitRequirement;
 import codersafterdark.reskillable.api.skill.Skill;
+import codersafterdark.reskillable.api.toast.ToastHelper;
 import codersafterdark.reskillable.api.unlockable.Unlockable;
 import com.buuz135.togetherforever.action.recovery.ReskillableUnlockableOfflineRecovery;
 import com.buuz135.togetherforever.api.IPlayerInformation;
@@ -45,11 +46,13 @@ public class ReskillableUnlockableSyncAction extends EventSyncAction<UnlockUnloc
             else {
                 if (playerMP.getUniqueID().equals(object.getEntityPlayer().getUniqueID())) continue;
                 PlayerData data = PlayerDataHandler.get(playerMP);
-                PlayerSkillInfo skillInfo = data.getSkillInfo(object.getUnlockable().getParentSkill());
-                if (!skillInfo.isUnlocked(object.getUnlockable())) {
-                    skillInfo.unlock(object.getUnlockable(), playerMP);
+                Unlockable unlockable = object.getUnlockable();
+                PlayerSkillInfo skillInfo = data.getSkillInfo(unlockable.getParentSkill());
+                if (!skillInfo.isUnlocked(unlockable)) {
+                    skillInfo.unlock(unlockable, playerMP);
                     data.saveAndSync();
                     RequirementCache.invalidateCache(information.getUUID(), TraitRequirement.class);
+                    ToastHelper.sendUnlockableToast(information.getPlayer(), unlockable);
                 }
             }
         }
@@ -69,6 +72,7 @@ public class ReskillableUnlockableSyncAction extends EventSyncAction<UnlockUnloc
                     if (originSkillInfo.isUnlocked(unlockable) && !syncSkillInfo.isUnlocked(unlockable)) {
                         syncSkillInfo.unlock(unlockable, toBeSynced.getPlayer());
                         changed = true;
+                        ToastHelper.sendUnlockableToast(toBeSynced.getPlayer(), unlockable);
                     }
                 }
             }

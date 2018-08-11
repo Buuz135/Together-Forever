@@ -6,6 +6,7 @@ import codersafterdark.reskillable.api.data.PlayerDataHandler;
 import codersafterdark.reskillable.api.data.PlayerSkillInfo;
 import codersafterdark.reskillable.api.requirement.RequirementCache;
 import codersafterdark.reskillable.api.requirement.TraitRequirement;
+import codersafterdark.reskillable.api.toast.ToastHelper;
 import codersafterdark.reskillable.api.unlockable.Unlockable;
 import com.buuz135.togetherforever.api.IPlayerInformation;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,6 +38,7 @@ public class ReskillableUnlockableOfflineRecovery extends AbstractOfflineRecover
                     if (!skillInfo.isUnlocked(unlockable)) {
                         skillInfo.unlock(unlockable, playerInformation.getPlayer());
                         changed = true;
+                        ToastHelper.sendUnlockableToast(playerInformation.getPlayer(), unlockable);
                     }
                 }
                 removeList.add(entry);
