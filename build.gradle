@@ -53,7 +53,7 @@ repositories {
 dependencies {
     deobfCompile "net.darkhax.bookshelf:Bookshelf-1.12.2:${version_bookshelf}"
     deobfCompile "net.darkhax.gamestages:GameStages-1.12.2:${version_gamestages}"
-    deobfCompile "codersafterdark.reskillable:Reskillable:1.12.2+"
+    deobfCompile "codersafterdark.reskillable:Reskillable:1.12.2-1.9.1-SNAPSHOT.93"
 }
 
 processResources {

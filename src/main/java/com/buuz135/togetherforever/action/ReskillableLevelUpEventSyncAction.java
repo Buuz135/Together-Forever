@@ -8,6 +8,7 @@ import codersafterdark.reskillable.api.event.LevelUpEvent;
 import codersafterdark.reskillable.api.requirement.RequirementCache;
 import codersafterdark.reskillable.api.requirement.SkillRequirement;
 import codersafterdark.reskillable.api.skill.Skill;
+import codersafterdark.reskillable.api.toast.ToastHelper;
 import com.buuz135.togetherforever.action.recovery.ReskillableLevelUpOfflineRecovery;
 import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.api.ITogetherTeam;
@@ -31,6 +32,7 @@ public class ReskillableLevelUpEventSyncAction extends EventSyncAction<LevelUpEv
     public NBTTagCompound transformEventToNBT(LevelUpEvent.Post event) {
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound.setString("Skill", event.getSkill().getRegistryName().toString());
+        tagCompound.setInteger("NewLevel", event.getLevel());
         return tagCompound;
     }
 
@@ -44,15 +46,14 @@ public class ReskillableLevelUpEventSyncAction extends EventSyncAction<LevelUpEv
             else {
                 if (playerMP.getUniqueID().equals(object.getEntityPlayer().getUniqueID())) continue;
                 PlayerData data = PlayerDataHandler.get(playerMP);
-                PlayerSkillInfo skillInfo = data.getSkillInfo(object.getSkill());
-                boolean changed = false;
-                if (skillInfo.getLevel() < object.getLevel()) {
-                    skillInfo.setLevel(object.getLevel());
-                    changed = true;
-                }
-                data.saveAndSync();
-                if (changed) {
+                Skill skill = object.getSkill();
+                PlayerSkillInfo skillInfo = data.getSkillInfo(skill);
+                int level = object.getLevel();
+                if (skillInfo.getLevel() < level) {
+                    skillInfo.setLevel(level);
+                    data.saveAndSync();
                     RequirementCache.invalidateCache(information.getUUID(), SkillRequirement.class);
+                    ToastHelper.sendSkillToast(playerMP, skill, level);
                 }
             }
         }
@@ -71,10 +72,11 @@ public class ReskillableLevelUpEventSyncAction extends EventSyncAction<LevelUpEv
                 if (skillInfo.getLevel() < otherLevel) {
                     skillInfo.setLevel(otherLevel);
                     changed = true;
+                    ToastHelper.sendSkillToast(toBeSynced.getPlayer(), skill, otherLevel);
                 }
             }
-            sync.saveAndSync();
             if (changed) {
+                sync.saveAndSync();
                 RequirementCache.invalidateCache(toBeSynced.getUUID(), SkillRequirement.class);
             }
             origin.saveAndSync();

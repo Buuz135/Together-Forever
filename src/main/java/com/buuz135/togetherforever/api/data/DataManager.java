@@ -6,6 +6,7 @@ import com.buuz135.togetherforever.api.ITogetherTeam;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.storage.WorldSavedData;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class DataManager extends WorldSavedData {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt) {
+    public void readFromNBT(@Nonnull NBTTagCompound nbt) {
         teams = new ArrayList<>();
         //
         NBTTagCompound raw = nbt.getCompoundTag(NAME);
@@ -38,10 +39,10 @@ public class DataManager extends WorldSavedData {
         for (String teamNames : teamCompound.getKeySet()) {
             NBTTagCompound team = teamCompound.getCompoundTag(teamNames);
             String teamID = team.getString("TeamID");
-            Class aClass = TogetherRegistries.getTogetherTeamClass(teamID);
+            Class<? extends ITogetherTeam> aClass = TogetherRegistries.getTogetherTeamClass(teamID);
             if (aClass != null) {
                 try {
-                    ITogetherTeam togetherTeam = (ITogetherTeam) aClass.newInstance();
+                    ITogetherTeam togetherTeam = aClass.newInstance();
                     togetherTeam.readFromNBT(team.getCompoundTag("Value"));
                     teams.add(togetherTeam);
                 } catch (InstantiationException | IllegalAccessException e) {
@@ -52,10 +53,10 @@ public class DataManager extends WorldSavedData {
         //OFFLINE RECOVERY READING
         NBTTagCompound offlineRecovery = nbt.getCompoundTag(RECOVERY);
         for (String key : offlineRecovery.getKeySet()) {
-            ISyncAction action = TogetherRegistries.getSyncActionFromID(key);
+            ISyncAction<?, ? extends IOfflineSyncRecovery> action = TogetherRegistries.getSyncActionFromID(key);
             if (action != null) {
                 try {
-                    IOfflineSyncRecovery recovery = (IOfflineSyncRecovery) action.getOfflineRecovery().newInstance();
+                    IOfflineSyncRecovery recovery = action.getOfflineRecovery().newInstance();
                     recovery.readFromNBT(offlineRecovery.getCompoundTag(key));
                     recoveries.add(recovery);
                 } catch (InstantiationException | IllegalAccessException e) {
@@ -65,8 +66,9 @@ public class DataManager extends WorldSavedData {
         }
     }
 
+    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
         NBTTagCompound custom = new NBTTagCompound();
         //TEAM SAVING
         NBTTagCompound teamCompound = new NBTTagCompound();

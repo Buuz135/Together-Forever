@@ -1,21 +1,18 @@
 package com.buuz135.togetherforever.api.data;
 
-import com.buuz135.togetherforever.api.IPlayerInformation;
-import com.buuz135.togetherforever.api.ISyncAction;
-import com.buuz135.togetherforever.api.ITogetherTeam;
-import com.buuz135.togetherforever.api.TogetherForeverAPI;
+import com.buuz135.togetherforever.api.*;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 public class TeamInvite {
 
     private final IPlayerInformation sender;
-    private final IPlayerInformation reciever;
+    private final IPlayerInformation receiver;
     private long createdTime;
 
-    public TeamInvite(IPlayerInformation sender, IPlayerInformation reciever) {
+    public TeamInvite(IPlayerInformation sender, IPlayerInformation receiver) {
         this.sender = sender;
-        this.reciever = reciever;
+        this.receiver = receiver;
         this.createdTime = System.currentTimeMillis();
     }
 
@@ -24,7 +21,7 @@ public class TeamInvite {
     }
 
     public IPlayerInformation getReciever() {
-        return reciever;
+        return receiver;
     }
 
     public void acceptInvite(boolean announce, boolean syncActions) {
@@ -37,16 +34,16 @@ public class TeamInvite {
         if (announce) {
             for (IPlayerInformation info : team.getPlayers()) {
                 if (info.getPlayer() != null)
-                    info.getPlayer().sendMessage(new TextComponentString(TextFormatting.GREEN + reciever.getName() + " has joined your team."));
+                    info.getPlayer().sendMessage(new TextComponentString(TextFormatting.GREEN + receiver.getName() + " has joined your team."));
             }
-            if (reciever.getPlayer() != null)
-                reciever.getPlayer().sendMessage(new TextComponentString(TextFormatting.GREEN + "You have joined " + sender.getName() + "'s team."));
+            if (receiver.getPlayer() != null)
+                receiver.getPlayer().sendMessage(new TextComponentString(TextFormatting.GREEN + "You have joined " + sender.getName() + "'s team."));
         }
         if (syncActions) {
-            for (ISyncAction action : TogetherRegistries.getSyncActions()) {
-                action.syncJoinPlayer(reciever, sender);
+            for (ISyncAction<?, ? extends IOfflineSyncRecovery> action : TogetherRegistries.getSyncActions()) {
+                action.syncJoinPlayer(receiver, sender);
             }
         }
-        TogetherForeverAPI.getInstance().addPlayerToTeam(team, reciever);
+        TogetherForeverAPI.getInstance().addPlayerToTeam(team, receiver);
     }
 }

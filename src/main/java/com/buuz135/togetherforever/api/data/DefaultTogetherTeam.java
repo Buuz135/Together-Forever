@@ -35,9 +35,7 @@ public class DefaultTogetherTeam implements ITogetherTeam {
 
     @Override
     public void removePlayer(IPlayerInformation playerInformation) {
-        if (playersInformation.contains(playerInformation)) {
-            playersInformation.remove(playerInformation);
-        }
+        playersInformation.remove(playerInformation);
     }
 
     @Override
@@ -57,10 +55,10 @@ public class DefaultTogetherTeam implements ITogetherTeam {
         compound.setString("Name", teamName);
         compound.setString("Owner", owner.toString());
         for (IPlayerInformation information : playersInformation) {
-            NBTTagCompound informationCompund = new NBTTagCompound();
-            informationCompund.setString("PlayerID", TogetherRegistries.getPlayerInformationID(information.getClass()));
-            informationCompund.setTag("Value", information.getNBTTag());
-            compound.setTag(information.getUUID().toString(), informationCompund);
+            NBTTagCompound informationCompound = new NBTTagCompound();
+            informationCompound.setString("PlayerID", TogetherRegistries.getPlayerInformationID(information.getClass()));
+            informationCompound.setTag("Value", information.getNBTTag());
+            compound.setTag(information.getUUID().toString(), informationCompound);
         }
         return compound;
     }
@@ -72,10 +70,10 @@ public class DefaultTogetherTeam implements ITogetherTeam {
         for (String key : compound.getKeySet()) {
             if (key.equalsIgnoreCase("Name")) continue;
             NBTTagCompound informationCompound = compound.getCompoundTag(key);
-            Class plClass = TogetherRegistries.getPlayerInformationClass(informationCompound.getString("PlayerID"));
+            Class<? extends IPlayerInformation> plClass = TogetherRegistries.getPlayerInformationClass(informationCompound.getString("PlayerID"));
             if (plClass != null) {
                 try {
-                    IPlayerInformation info = (IPlayerInformation) plClass.newInstance();
+                    IPlayerInformation info = plClass.newInstance();
                     info.readFromNBT(informationCompound.getCompoundTag("Value"));
                     playersInformation.add(info);
                 } catch (InstantiationException | IllegalAccessException e) {

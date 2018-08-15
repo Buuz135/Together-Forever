@@ -38,7 +38,7 @@ import java.util.List;
         modid = TogetherForever.MOD_ID,
         name = TogetherForever.MOD_NAME,
         version = TogetherForever.VERSION,
-        dependencies = "required:forge@[14.23.1.2560,);after:gamestages@[2.0.90,);after:reskillable@[1.7.0,);"
+        dependencies = "required:forge@[14.23.1.2560,);after:gamestages@[2.0.90,);after:reskillable@[1.9.1,);"
 )
 public class TogetherForever {
 
@@ -48,7 +48,7 @@ public class TogetherForever {
 
     public static Logger LOGGER;
 
-    //Add a comand to force sync players
+    //Add a command to force sync players
     //Sync other player stuff when player joins
     /**
      * This is the instance of your mod as created by Forge. It will never be null.
@@ -130,12 +130,12 @@ public class TogetherForever {
     }
 
     private void registerSyncActions(ASMDataTable data) throws IllegalAccessException, InstantiationException {
-        for (Class aClass : AnnotationHelper.getAnnotatedClasses(data, SyncAction.class)) {
+        for (Class<?> aClass : AnnotationHelper.getAnnotatedClasses(data, SyncAction.class)) {
             if (ISyncAction.class.isAssignableFrom(aClass)) {
-                SyncAction syncAction = (SyncAction) aClass.getAnnotation(SyncAction.class);
+                SyncAction syncAction = aClass.getAnnotation(SyncAction.class);
                 if (syncAction.dependencies().length == 0 || areDependenciesLoaded(syncAction.dependencies())) {
                     Object object = aClass.newInstance();
-                    TogetherRegistries.registerSyncAction(syncAction.id(), (ISyncAction) object);
+                    TogetherRegistries.registerSyncAction(syncAction.id(), (ISyncAction<?, ? extends IOfflineSyncRecovery>) object);
                 }
             }
         }

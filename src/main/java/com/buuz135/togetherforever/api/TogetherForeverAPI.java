@@ -128,18 +128,18 @@ public class TogetherForeverAPI {
      * Creates an invite to join a team
      *
      * @param sender         The player that sends the invite
-     * @param reciever       The player that recieves the invite
+     * @param receiver       The player that receives the invite
      * @param announceInvite true if the player that gets the invite needs to get a notification
      * @return The created invite
      */
-    public TeamInvite createTeamInvite(IPlayerInformation sender, IPlayerInformation reciever, boolean announceInvite) {
-        TeamInvite invite = new TeamInvite(sender, reciever);
+    public TeamInvite createTeamInvite(IPlayerInformation sender, IPlayerInformation receiver, boolean announceInvite) {
+        TeamInvite invite = new TeamInvite(sender, receiver);
         if (announceInvite) {
             ITextComponent accept = new TextComponentString("[ACCEPT]");
             accept.getStyle().setBold(true).setColor(TextFormatting.GREEN).setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tf accept " + sender.getName())).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Click to accept")));
             ITextComponent decline = new TextComponentString("[DECLINE]");
             decline.getStyle().setBold(true).setColor(TextFormatting.RED).setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tf decline " + sender.getName())).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Click to accept")));
-            reciever.getPlayer().sendMessage(new TextComponentString("You have been invited to join " + sender.getName() + "'s team. Click ")
+            receiver.getPlayer().sendMessage(new TextComponentString("You have been invited to join " + sender.getName() + "'s team. Click ")
                     .appendSibling(accept).appendText(" ").appendSibling(decline));
         }
         teamInvites.add(invite);

@@ -24,13 +24,13 @@ public class AcceptInviteCommand extends SubCommandAction {
     public boolean execute(MinecraftServer server, ICommandSender sender, String[] args) {
         if (args.length > 1) {
             try {
-                EntityPlayerMP inviteReciever = CommandBase.getCommandSenderAsPlayer(sender);
+                EntityPlayerMP inviteReceiver = CommandBase.getCommandSenderAsPlayer(sender);
                 EntityPlayerMP inviteSender = TogetherForeverAPI.getInstance().getPlayer(args[1]);
-                if (inviteSender != null && inviteReciever != inviteSender) {
-                    IPlayerInformation infoReciever = DefaultPlayerInformation.createInformation(inviteReciever);
+                if (inviteSender != null && inviteReceiver != inviteSender) {
+                    IPlayerInformation infoReceiver = DefaultPlayerInformation.createInformation(inviteReceiver);
                     IPlayerInformation infoSender = DefaultPlayerInformation.createInformation(inviteSender);
                     for (TeamInvite invite : TogetherForeverAPI.getInstance().getTeamInvites()) {
-                        if (invite.getSender().equals(infoSender) && invite.getReciever().equals(infoReciever)) {
+                        if (invite.getSender().equals(infoSender) && invite.getReciever().equals(infoReceiver)) {
                             invite.acceptInvite(true, true);
                             TogetherForeverAPI.getInstance().getTeamInvites().remove(invite);
                             return true;
