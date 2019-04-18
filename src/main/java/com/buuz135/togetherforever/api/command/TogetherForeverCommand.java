@@ -57,7 +57,7 @@ public class TogetherForeverCommand extends CommandBase {
     @Nonnull
     @Override
     public String getUsage(@Nonnull ICommandSender sender) {
-        StringBuilder builder = new StringBuilder("Usage: /tf <");
+        StringBuilder builder = new StringBuilder("Usage: /tofe <");
         for (SubCommandAction action : subCommandActions) {
             builder.append(action.getSubCommandName()).append('|');
         }
@@ -67,7 +67,7 @@ public class TogetherForeverCommand extends CommandBase {
     @Nonnull
     @Override
     public List<String> getAliases() {
-        return Arrays.asList("tf", "together");
+        return Arrays.asList("tofe", "together");
     }
 
     @Override
@@ -76,8 +76,8 @@ public class TogetherForeverCommand extends CommandBase {
             for (SubCommandAction action : subCommandActions) {
                 if (action.getSubCommandName().equalsIgnoreCase(args[0])) {
                     if (!action.execute(server, sender, args)) {
-                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "Usage: /tf " + action.getSubCommandName() + ' ' + action.getUsage() + " - " + action.getInfo()));
-                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "Use '/tf help' for more information!"));
+                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "Usage: /tofe " + action.getSubCommandName() + ' ' + action.getUsage() + " - " + action.getInfo()));
+                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "Use '/tofe help' for more information!"));
                     }
                     return;
                 }

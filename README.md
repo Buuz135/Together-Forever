@@ -3,13 +3,13 @@ Together Forever is a Team API that allows you to sync stuff like advancements o
 All the types of sync can be disabled in the config
 
 ## Commands
-+ `/tf help` - 
-+ `/tf invite <player_name>` - Invites a player to your team, if you don't have a team it will be created
-+ `/tf accept <player_name>` - Accepts the invite to join that player's team
-+ `/tf decline <player_name>` - Declines the invite to join that player's team
-+ `/tf kick <player_name>` - It kicks a player from your team, only the player that created the team is allowed to run the command
-+ `/tf leave` - Leaves your current team
-+ `/tf info` - Shows information about your team
-+ `/tf forcesync` - Forces the sync of team information
++ `/tofe help` - 
++ `/tofe invite <player_name>` - Invites a player to your team, if you don't have a team it will be created
++ `/tofe accept <player_name>` - Accepts the invite to join that player's team
++ `/tofe decline <player_name>` - Declines the invite to join that player's team
++ `/tofe kick <player_name>` - It kicks a player from your team, only the player that created the team is allowed to run the command
++ `/tofe leave` - Leaves your current team
++ `/tofe info` - Shows information about your team
++ `/tofe forcesync` - Forces the sync of team information
 
 You can also use `/together <sub_command>` or `/togetherforever <sub_command>`

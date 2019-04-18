@@ -23,7 +23,7 @@
 
 # 1.0.4
 + Added Reskillable Level team sync (Currently disabled)
-+ Added /tf help
++ Added /tofe help
 + Fixed a concurrent modification exception that shouldn't happen in the first time
 
 # 1.0.3
