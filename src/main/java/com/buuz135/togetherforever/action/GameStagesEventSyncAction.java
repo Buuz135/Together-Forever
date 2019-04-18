@@ -86,6 +86,7 @@ public class GameStagesEventSyncAction extends EventSyncAction<GameStageEvent.Ad
 
     @Override
     public void syncJoinPlayer(IPlayerInformation toBeSynced, IPlayerInformation teamMember) {
+        if (!TogetherForeverConfig.gamestagesSync) return;
         if (teamMember.getPlayer() != null && toBeSynced.getPlayer() != null) {
             for (String s : GameStageHelper.getPlayerData(teamMember.getPlayer()).getStages()) {
                 unlockPlayerStage(toBeSynced.getPlayer(), s);

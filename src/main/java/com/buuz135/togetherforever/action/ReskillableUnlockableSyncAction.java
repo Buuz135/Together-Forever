@@ -82,6 +82,7 @@ public class ReskillableUnlockableSyncAction extends EventSyncAction<UnlockUnloc
 
     @Override
     public void syncJoinPlayer(IPlayerInformation toBeSynced, IPlayerInformation teamMember) {
+        if (!TogetherForeverConfig.reskillableUnlockableSync) return;
         if (toBeSynced.getPlayer() != null && teamMember.getPlayer() != null) {
             PlayerData origin = PlayerDataHandler.get(teamMember.getPlayer());
             PlayerData sync = PlayerDataHandler.get(toBeSynced.getPlayer());

@@ -83,6 +83,7 @@ public class ReskillableLevelUpEventSyncAction extends EventSyncAction<LevelUpEv
 
     @Override
     public void syncJoinPlayer(IPlayerInformation toBeSynced, IPlayerInformation teamMember) {
+        if (!TogetherForeverConfig.reskillableLevelUpSync) return;
         if (toBeSynced.getPlayer() != null && teamMember.getPlayer() != null) {
             PlayerData origin = PlayerDataHandler.get(teamMember.getPlayer());
             PlayerData sync = PlayerDataHandler.get(toBeSynced.getPlayer());

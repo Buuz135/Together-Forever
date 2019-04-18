@@ -71,6 +71,7 @@ public class AdvancementEventSyncAction extends EventSyncAction<AdvancementEvent
 
     @Override
     public void syncJoinPlayer(IPlayerInformation toBeSynced, IPlayerInformation teamMember) {
+        if (!TogetherForeverConfig.advancementSync) return;
         if (teamMember.getPlayer() != null && toBeSynced.getPlayer() != null) {
             EntityPlayerMP member = teamMember.getPlayer();
             EntityPlayerMP sync = toBeSynced.getPlayer();
