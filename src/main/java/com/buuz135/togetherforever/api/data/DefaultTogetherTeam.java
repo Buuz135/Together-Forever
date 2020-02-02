@@ -24,9 +24,10 @@ package com.buuz135.togetherforever.api.data;
 import com.buuz135.togetherforever.api.IPlayerInformation;
 import com.buuz135.togetherforever.api.ITogetherTeam;
 import com.buuz135.togetherforever.api.annotation.TogetherTeam;
-import com.buuz135.togetherforever.utils.TeamHelper;
 import net.minecraft.nbt.NBTTagCompound;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -61,8 +62,16 @@ public class DefaultTogetherTeam implements ITogetherTeam {
 
     @Override
     public void removePlayer(UUID playerUUID) {
-        IPlayerInformation information = TeamHelper.findPlayerInfo(playersInformation, playerUUID);
+        IPlayerInformation information = findPlayerInfo(playersInformation, playerUUID);
         if (information != null) playersInformation.remove(information);
+    }
+
+    @Nullable
+    public static IPlayerInformation findPlayerInfo(@Nonnull Collection<IPlayerInformation> information, @Nonnull UUID playerUUID) {
+        for (IPlayerInformation player : information) {
+            if (player.getUUID().equals(playerUUID)) return player;
+        }
+        return null;
     }
 
     @Override
