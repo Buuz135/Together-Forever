@@ -21,11 +21,7 @@
  */
 package com.buuz135.togetherforever.api.data;
 
-import com.buuz135.togetherforever.TogetherForever;
-import com.buuz135.togetherforever.api.IOfflineSyncRecovery;
-import com.buuz135.togetherforever.api.IPlayerInformation;
-import com.buuz135.togetherforever.api.ISyncAction;
-import com.buuz135.togetherforever.api.ITogetherTeam;
+import com.buuz135.togetherforever.api.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,7 +40,7 @@ public class TogetherRegistries {
      * @param action The ISyncAction to be registered
      */
     public static void registerSyncAction(String id, ISyncAction<?, ? extends IOfflineSyncRecovery> action) {
-        TogetherForever.LOGGER.info("Registering SyncAction with id " + id + " and class " + action.getClass().getName());
+        TogetherForeverAPI.LOGGER.info("Registering SyncAction with id " + id + " and class " + action.getClass().getName());
         SYNC_ACTION_REGISTRY.put(id, action);
     }
 
@@ -81,7 +77,7 @@ public class TogetherRegistries {
      * @param team The class of the TogetherTeam
      */
     public static void registerTogetherTeam(String id, Class<? extends ITogetherTeam> team) {
-        TogetherForever.LOGGER.info("Registering TogetherTeam with id " + id + " and class " + team.getName());
+        TogetherForeverAPI.LOGGER.info("Registering TogetherTeam with id " + id + " and class " + team.getName());
         TEAM_REGISTRY.put(id, team);
     }
 
@@ -92,7 +88,7 @@ public class TogetherRegistries {
      * @param player The PlayerInformation class
      */
     public static void registerPlayerInformation(String id, Class<? extends IPlayerInformation> player) {
-        TogetherForever.LOGGER.info("Registering PlayerInformation with id " + id + " and class " + player.getName());
+        TogetherForeverAPI.LOGGER.info("Registering PlayerInformation with id " + id + " and class " + player.getName());
         PLAYER_REGISTRY.put(id, player);
     }
 

@@ -35,6 +35,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -47,8 +49,9 @@ import java.util.UUID;
 public class TogetherForeverAPI {
 
     public static final String MOD_ID = "togetherforever";
-    public static final String API_VERSION = "1";
+    public static final String API_VERSION = "1.1";
     public static final String API_ID = MOD_ID + "api";
+    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     private static TogetherForeverAPI ourInstance = new TogetherForeverAPI();
     private List<TeamInvite> teamInvites;
