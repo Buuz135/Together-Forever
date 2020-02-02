@@ -121,6 +121,7 @@ public class TogetherForeverAPI {
         for (ITogetherTeam togetherTeam : manager.getTeams()) {
             if (togetherTeam.getOwner().equals(team.getOwner()) && togetherTeam.getTeamName().equalsIgnoreCase(team.getTeamName())) {
                 TeamEvent.RemovePlayer removePlayer = new TeamEvent.RemovePlayer(togetherTeam, playerInformation);
+                MinecraftForge.EVENT_BUS.post(removePlayer);
                 if (!removePlayer.isCanceled()) {
                     removePlayer.getTogetherTeam().removePlayer(removePlayer.getPlayerInformation());
                     manager.markDirty();
