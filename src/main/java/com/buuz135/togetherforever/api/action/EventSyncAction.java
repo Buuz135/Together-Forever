@@ -21,7 +21,6 @@
  */
 package com.buuz135.togetherforever.api.action;
 
-import com.buuz135.togetherforever.TogetherForever;
 import com.buuz135.togetherforever.api.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
@@ -62,19 +61,19 @@ public abstract class EventSyncAction<T extends PlayerEvent, S extends IOfflineS
     @SubscribeEvent(receiveCanceled = true)
     public void onEvent(T event) {
         if (!event.getClass().equals(eventClass)) return;
-        TogetherForever.LOGGER.debug("Triggering event class: " + event.getClass().toString());
+        TogetherForeverAPI.LOGGER.debug("Triggering event class: " + event.getClass().toString());
         if (TogetherForeverAPI.getInstance().getWorld() == null) return;
-        TogetherForever.LOGGER.debug("World is not null");
+        TogetherForeverAPI.LOGGER.debug("World is not null");
         ITogetherTeam team = TogetherForeverAPI.getInstance().getPlayerTeam(event.getEntityPlayer().getUniqueID());
         if (team != null) {
-            TogetherForever.LOGGER.debug("Found team: " + team.getTeamName() + ". Contains this players:");
-            team.getPlayers().forEach(iPlayerInformation -> TogetherForever.LOGGER.debug(iPlayerInformation.getUUID().toString() + ':' + iPlayerInformation.getName()));
-            TogetherForever.LOGGER.debug("Starting to trigger sync");
+            TogetherForeverAPI.LOGGER.debug("Found team: " + team.getTeamName() + ". Contains this players:");
+            team.getPlayers().forEach(iPlayerInformation -> TogetherForeverAPI.LOGGER.debug(iPlayerInformation.getUUID().toString() + ':' + iPlayerInformation.getName()));
+            TogetherForeverAPI.LOGGER.debug("Starting to trigger sync");
             List<IPlayerInformation> playerLeft = triggerSync(event, team);
-            TogetherForever.LOGGER.debug("Sync triggered with " + playerLeft.size() + " players not being synced:");
+            TogetherForeverAPI.LOGGER.debug("Sync triggered with " + playerLeft.size() + " players not being synced:");
             NBTTagCompound compound = transformEventToNBT(event);
             for (IPlayerInformation information : playerLeft) {
-                TogetherForever.LOGGER.debug(information.getUUID().toString() + ':' + information.getName());
+                TogetherForeverAPI.LOGGER.debug(information.getUUID().toString() + ':' + information.getName());
                 TogetherForeverAPI.getInstance().addPlayerToOfflineRecovery(recovery, information, compound);
             }
         }
