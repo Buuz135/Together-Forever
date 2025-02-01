@@ -93,7 +93,7 @@ public class TogetherForever {
         if (event.getEntity() instanceof ServerPlayer && TogetherForeverAPI.getInstance().getPlayerTeam(event.getEntity().getUUID()) != null) {
             joinedPlayers.put(event.getEntity().getUUID().toString(), System.currentTimeMillis());
             if (TogetherForeverConfig.syncDataSecondsDelay.get() > 0)
-                event.getEntity().sendSystemMessage(Component.literal(ChatFormatting.GOLD + "Syncing team data in " + TogetherForeverConfig.syncDataSecondsDelay + " seconds!"));
+                event.getEntity().sendSystemMessage(Component.literal(ChatFormatting.GOLD + "Syncing team data in " + TogetherForeverConfig.syncDataSecondsDelay.get() + " seconds!"));
         }
     }
 
